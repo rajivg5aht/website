@@ -1,0 +1,141 @@
+body {
+  background-color: #ffffff; /* white background outside container */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.signup-container {
+  max-width: 400px;
+  margin: 120px auto 60px auto;
+  padding: 40px;
+  background-color: #ffffff; /* container background white */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.signup-container h1 {
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.signup-container .subtitle {
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: #6b7280;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.signup-form label {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.signup-form input[type="text"]:focus,
+.signup-form input[type="email"]:focus,
+.signup-form input[type="password"]:focus {
+  border-color: #10b981;
+}
+
+.terms {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+.terms label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.terms a {
+  color: #10b981;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+.register-btn {
+  background-color: #ffffff;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  border: #000000 1px solid;
+}
+
+.register-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.signin-link {
+  margin-top: 24px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  position: relative;
+}
+
+.signin-link hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 12px 0;
+}
+
+.signin-link p {
+  margin: 0;
+  position: relative;
+  top: -18px;
+  background: #ffffff;
+  display: inline-block;
+  padding: 0 12px;
+}
+
+.signin-btn {
+  background: none;
+  border: none;
+  color: #10b981;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.signin-btn:hover {
+  text-decoration: underline;
+}

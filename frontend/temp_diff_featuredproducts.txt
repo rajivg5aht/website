@@ -1,0 +1,10 @@
+import './FeaturedProducts.css';
+=======
+
+import React from 'react';
+import './FeaturedProducts.css';
+
+import ktm from '../assets/ktm.png';
+import shark from '../assets/shark.png';
+import saman from '../assets/saman.png';
+import bag from '../assets/bag.png';

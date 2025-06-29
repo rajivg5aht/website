@@ -1,0 +1,140 @@
+body {
+  background-color: #f3f4f6; /* light grey background for entire page */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 120px auto 60px auto;
+  padding: 40px;
+  background-color: #f3f4f6; /* container background same as page background */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container h1 {
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.login-container .subtitle {
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: #6b7280;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.login-form label {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+  border-color: #10b981;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: #10b981;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.create-account {
+  margin-top: 24px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  position: relative;
+}
+
+.create-account hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 12px 0;
+}
+
+.create-account p {
+  margin: 0;
+  position: relative;
+  top: -18px;
+  background: #f9fafb;
+  display: inline-block;
+  padding: 0 12px;
+}
+
+.create-account-btn {
+  background: none;
+  border: none;
+  color: #10b981;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.create-account-btn:hover {
+  text-decoration: underline;
+}
