@@ -1,5 +1,5 @@
 import { Search, ShoppingCart, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -9,6 +9,7 @@ export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleSearchToggle = () => {
     setSearchOpen(!searchOpen);
@@ -17,9 +18,8 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
-      console.log("Search query:", searchQuery);
-      // Implement actual search logic or navigation here
-      // For example, navigate to /search?q=searchQuery
+      navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
     }
   };
 
@@ -93,9 +93,9 @@ export default function Navbar() {
                   <Search className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
-              <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Link to="/cart" className="p-2 hover:bg-gray-100 rounded-full">
                 <ShoppingCart className="w-5 h-5 text-gray-600" />
-              </button>
+              </Link>
               {user ? (
                 <UserDropdown logout={logout} />
               ) : (

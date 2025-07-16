@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import coupleImage from "../assets/couple.jpg";
 import Footer from "../component/Footer";
+import standingImage from "../assets/standing.jpg"; // Assuming you have this image
 
 export default function About() {
   const navigate = useNavigate();
@@ -76,26 +77,33 @@ Ride Bold. Ride Safe. Ride with Helmets & Gears.
         </section>
 
         {/* Text and Image Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 order-2 md:order-1">
-            <h3 className="text-xl font-semibold">
-             Protection isn’t just a feature — it’s a mindset. At Helmets & Gears, we craft every detail with the rider’s instinct to endure, to explore, and to return safely. Because every ride deserves armor built with purpose.
-            </h3>
-            <button className="inline-flex items-center px-6 py-2 border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-300 rounded-md">
-              Discover Products
-              <svg
-                className="ml-2 w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
-              </svg>
-            </button>
-          </div>
-        </section>
+       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 h-150 items-center">
+  {/* Image on the left for md and up */}
+  <div className="order-1 md:order-1">
+    <img src={standingImage} alt="Standing image" className="w-full h-100 object-cover rounded-md" />
+  </div>
+
+  {/* Text content on the right for md and up */}
+  <div className="space-y-6 order-2 md:order-2">
+    <h3 className="text-xl font-semibold">
+      Protection isn’t just a feature — it’s a mindset. At Helmets & Gears, we craft every detail with the rider’s instinct to endure, to explore, and to return safely. Because every ride deserves armor built with purpose.
+    </h3>
+    <button className="inline-flex items-center px-6 py-2 border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-300 rounded-md">
+      Discover Products
+      <svg
+        className="ml-2 w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+</section>
+
 
         {/* Large Image Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

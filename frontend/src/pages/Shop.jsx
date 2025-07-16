@@ -122,17 +122,23 @@ const sizes = ["Small", "Medium", "Large", "X-Large", "XX-Large", "3X-Large"];
 export default function Shop() {
   const location = useLocation();
   const navigate = useNavigate();
-  // Removed priceRange state as per request
   const [selectedColors, setSelectedColors] = useState(["blue"]);
   const [selectedSize, setSelectedSize] = useState("Large");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortOption, setSortOption] = useState("Most Popular");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const category = params.get("category");
+    const query = params.get("q");
     if (category) {
       setSelectedCategory(category);
+    }
+    if (query) {
+      setSearchQuery(query);
+    } else {
+      setSearchQuery("");
     }
   }, [location.search]);
 
@@ -152,9 +158,17 @@ export default function Shop() {
     setSortOption(event.target.value);
   };
 
-  let filteredProducts = selectedCategory
-    ? products.filter(product => product.category === selectedCategory)
-    : products;
+  let filteredProducts = products;
+
+  if (searchQuery.trim() !== "") {
+    const lowerQuery = searchQuery.toLowerCase();
+    filteredProducts = filteredProducts.filter(product =>
+      product.title.toLowerCase().includes(lowerQuery) ||
+      product.category.toLowerCase().includes(lowerQuery)
+    );
+  } else if (selectedCategory) {
+    filteredProducts = filteredProducts.filter(product => product.category === selectedCategory);
+  }
 
   if (sortOption === "Price: Low to High") {
     filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
@@ -195,7 +209,7 @@ export default function Shop() {
           {/* Filters Header */}
           <div className="flex justify-between items-center text-gray-900 font-semibold text-lg">
             <span>Filters</span>
-            <button className="text-gray-500 hover:text-gray-900" onClick={() => setFilteredProducts(products)}>Clear All</button>
+            <button className="text-gray-500 hover:text-gray-900" onClick={() => setSelectedCategory(null)}>Clear All</button>
           </div>
 
           {/* Categories */}
@@ -216,8 +230,6 @@ export default function Shop() {
               ))}
             </ul>
           </div>
-
-          {/* Removed Price Range Filter */}
 
           {/* Size */}
           <div>
@@ -254,7 +266,7 @@ export default function Shop() {
                 image={product.image}
                 imageHeight={product.image === ls2Image ? "h-15" : "h-40"}
                 onClick={() => navigate(`/productdetails/${product.id}`)}
-                onAddToCart={() => navigate(`/productdetails/${product.id}`)}
+                onAddToCart={() => navigate(`/cart`)}
               />
             ))}
           </div>

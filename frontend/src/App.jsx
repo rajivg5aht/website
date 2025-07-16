@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import Landing from "./pages/Landing";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Contact from "./pages/Contact";
@@ -9,6 +9,7 @@ import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
 import Navbar from "./component/Navbar";
+import Landing from "./pages/landing";
 
 function App() {
   return (
