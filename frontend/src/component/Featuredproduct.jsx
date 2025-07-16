@@ -72,6 +72,10 @@ export default function FeaturedProducts() {
     navigate(`/productdetails/${id}`);
   };
 
+  const handleProductClick = (id) => {
+    navigate(`/productdetails/${id}`);
+  };
+
   return (
     <section className="py-8 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,6 +94,7 @@ export default function FeaturedProducts() {
               key={product.id}
               {...product}
               onAddToCart={() => handleAddToCart(product.id)}
+              onClick={() => handleProductClick(product.id)}
             />
           ))}
         </div>
