@@ -1,19 +1,51 @@
-export default function ProductCard({ name, price, originalPrice, image, showAddToCart = true, hideDollarSign = false }) {
+import { useState } from "react";
+
+export default function ProductCard({ name, price, originalPrice, image, discount, showAddToCart = true, hideDollarSign = false, onClick, onAddToCart }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-      <img src={image} alt={name} className="w-full h-40 object-cover rounded-md mb-4" />
-      <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-      <div className="flex items-center space-x-2 mt-2">
-        <span className="text-orange-500 font-bold">{hideDollarSign ? price : `$${price}`}</span>
-        {originalPrice && (
-          <span className="text-gray-500 line-through">{hideDollarSign ? originalPrice : `$${originalPrice}`}</span>
+    <div
+      onClick={onClick}
+      className="bg-white rounded-lg shadow p-4 flex flex-col items-center cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="relative w-full mb-4 rounded-md overflow-hidden">
+        <img src={image} alt={name} className="w-full h-64 object-cover rounded-md" />
+        {/* Removed discount badge display as per user request */}
+        {showAddToCart && (
+          <div className={`absolute top-2 right-2 flex flex-col space-y-2 opacity-0 transition-opacity duration-300 ${hovered ? "opacity-100" : ""}`}>
+            <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+            </button>
+            <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276a1 1 0 011.447.894v6.764a1 1 0 01-1.447.894L15 14m-6 0l-4.553 2.276A1 1 0 013 14.276v-6.764a1 1 0 011.447-.894L9 10m6 0v4m-6-4v4" />
+              </svg>
+            </button>
+          </div>
+        )}
+        {showAddToCart && hovered && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onAddToCart) onAddToCart();
+            }}
+            className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white py-3 font-semibold rounded-b-md shadow-lg transform hover:scale-105 transition-transform duration-300"
+          >
+            Add to Cart
+          </button>
         )}
       </div>
-      {showAddToCart && (
-        <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-semibold">
-          Add to Cart
-        </button>
-      )}
+      <h3 className="text-base font-semibold text-gray-900 w-full hover:text-pink-600 transition-colors duration-300 cursor-pointer">{name}</h3>
+      <div className="flex items-center space-x-2 mt-2 w-full">
+        <span className="text-orange-500 font-bold">{hideDollarSign ? price : `Rs ${price}`}</span>
+        {originalPrice && (
+          <span className="text-gray-500 line-through">{hideDollarSign ? originalPrice : `Rs ${originalPrice}`}</span>
+        )}
+      </div>
     </div>
   );
 }

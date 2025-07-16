@@ -1,12 +1,27 @@
 import { Search, ShoppingCart, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import UserDropdown from "../context/UserDropdown";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearchToggle = () => {
+    setSearchOpen(!searchOpen);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== "") {
+      console.log("Search query:", searchQuery);
+      // Implement actual search logic or navigation here
+      // For example, navigate to /search?q=searchQuery
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -21,64 +36,73 @@ export default function Navbar() {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex items-center space-x-8">
-              <a
-                href="#"
+              <Link
+                to="/"
                 className="text-gray-900 hover:text-gray-600 font-medium"
               >
                 Home
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/shop"
                 className="text-gray-600 hover:text-gray-900 font-medium"
               >
                 Shop
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/contact"
                 className="text-gray-600 hover:text-gray-900 font-medium"
               >
-                Categories
-              </a>
-              <a
-                href="#"
+                Contact
+              </Link>
+              <Link
+                to="/about"
                 className="text-gray-600 hover:text-gray-900 font-medium"
               >
                 About
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/signup"
                 className="text-gray-600 hover:text-gray-900 font-medium"
               >
                 Signup
-              </a>
+              </Link>
             </nav>
 
-            {/* Right Side Icons */}
+            {/* Right Side Icons and Search */}
             <div className="flex items-center space-x-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <Search className="w-5 h-5 text-gray-600" />
-              </button>
+              <div className="relative flex items-center space-x-2">
+                {searchOpen && (
+                  <form
+                    onSubmit={handleSearchSubmit}
+                    className="absolute right-10"
+                  >
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search..."
+                      className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    />
+                  </form>
+                )}
+                <button
+                  onClick={handleSearchToggle}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                  aria-label="Toggle search"
+                >
+                  <Search className="w-5 h-5 text-gray-600" />
+                </button>
+              </div>
               <button className="p-2 hover:bg-gray-100 rounded-full">
                 <ShoppingCart className="w-5 h-5 text-gray-600" />
               </button>
               {user ? (
-                <>
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <User className="w-5 h-5 text-gray-600" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      logout();
-                      window.location.href = "/";
-                    }}
-                    className="p-2 hover:bg-gray-100 rounded-full text-gray-600 hover:text-gray-900 font-medium"
-                    title="Logout"
-                  >
-                    Logout
-                  </button>
-                </>
+                <UserDropdown logout={logout} />
               ) : (
-                <Link to="/login" className="text-gray-600 hover:text-gray-900 font-medium">
+                <Link
+                  to="/login"
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                >
                   Login
                 </Link>
               )}

@@ -30,7 +30,10 @@ export default function HeroSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg font-semibold">
+              <button
+                onClick={() => window.location.href = '/shop'}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg font-semibold"
+              >
                 Shop Now →
               </button>
               <button

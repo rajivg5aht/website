@@ -8,9 +8,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
-              <div className="bg-blue-600 text-white p-2 rounded-lg mr-2">
-                <span className="font-bold text-xl">H&G</span>
-              </div>
+             
               <span className="font-bold text-xl">Helmets & Gears</span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">

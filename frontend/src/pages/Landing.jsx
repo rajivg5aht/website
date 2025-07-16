@@ -1,15 +1,15 @@
 import React from "react";
-import Navbar from "../component/navbar";
+
 import HeroSection from "../component/Herosection";
-import ProductCategory from "../component/productcategory";
+import ProductCategory from "../component/Productcategory";
 import FeaturedProducts from "../component/Featuredproduct";
-import Footer from "../component/footer";
+import Footer from "../component/Footer";
 
 
 export default function Landing() {
   return (
     <div>
-      <Navbar />
+      
       <HeroSection />
       <ProductCategory />
       <FeaturedProducts />
