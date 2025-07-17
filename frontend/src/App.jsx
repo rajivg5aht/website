@@ -10,6 +10,8 @@ import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
 import Navbar from "./component/Navbar";
 import Landing from "./pages/landing";
+import Manageaccount from "./pages/Manageaccount";
+import ManageAddress from "./pages/ManageAddress";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/productdetails" element={<Productdetails />} />
         <Route path="/productdetails/:id" element={<Productdetails />} />
+        <Route path="/manageaccount" element={<Manageaccount />} />
+        <Route path="/manage-address" element={<ManageAddress />} />
       </Routes>
     </>
   );

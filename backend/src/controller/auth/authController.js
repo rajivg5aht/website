@@ -3,24 +3,24 @@ import { generateToken } from "../../security/jwt-util.js";
 
 const login = async (req, res) => {
   try {
-    //fetching all the data from users table
-    if (req.body.email == null) {
-      return res.status(500).send({ message: "email is required" });
+    if (!req.body.email) {
+      return res.status(400).send({ message: "Email is required" });
     }
-    if (req.body.password == null) {
-      return res.status(500).send({ message: "email is required" });
+    if (!req.body.password) {
+      return res.status(400).send({ message: "Password is required" });
     }
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      return res.status(500).send({ message: "user not found" });
+      return res.status(401).send({ message: "Invalid email or password" });
     }
-    if (user.password == req.body.password) {
-      const token = generateToken({ user: user.toJSON() });
-      return res.status(200).send({
-        data: { access_token: token },
-        message: "successfully logged in",
-      });
+    if (user.password !== req.body.password) {
+      return res.status(401).send({ message: "Invalid email or password" });
     }
+    const token = generateToken({ user: user.toJSON() });
+    return res.status(200).send({
+      data: { access_token: token },
+      message: "successfully logged in",
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({ error: "Failed to login" });

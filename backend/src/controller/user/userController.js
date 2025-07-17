@@ -19,24 +19,29 @@ const getAll = async (req, res) => {
 */
 
 const create = async (req, res) => {
-
     try {
-        const body = req.body
-        console.log(req.body)
-        //validation
-        if (!body?.email || !body?.name || !body?.password)
-            return res.status(500).send({ message: "Invalid paylod" });
+        const body = req.body;
+        console.log(req.body);
+        // validation
+        if (!body?.email || !body?.name || !body?.password) {
+            return res.status(400).send({ message: "Invalid payload" });
+        }
+        // check if user with email already exists
+        const existingUser = await User.findOne({ where: { email: body.email } });
+        if (existingUser) {
+            return res.status(409).send({ message: "Email already exists" });
+        }
         const users = await User.create({
             name: body.name,
             email: body.email,
-            password: body.password
+            password: body.password,
         });
-        res.status(201).send({ data: users, message: "successfully created user" })
+        res.status(201).send({ data: users, message: "successfully created user" });
     } catch (e) {
-        console.log(e)
-        res.status(500).json({ error: 'Failed to fetch users' });
+        console.log(e);
+        res.status(500).json({ error: "Failed to create user" });
     }
-}
+};
 
 /**
  *  update existing user

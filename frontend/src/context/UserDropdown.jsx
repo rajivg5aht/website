@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function UserDropdown({ logout }) {
   const [open, setOpen] = useState(false);
@@ -35,7 +36,14 @@ export default function UserDropdown({ logout }) {
         <User className="w-5 h-5 text-gray-600" />
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+          <Link
+            to="/manageaccount"
+            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            onClick={() => setOpen(false)}
+          >
+            User profile
+          </Link>
           <button
             onClick={handleLogout}
             className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
