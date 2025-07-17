@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { Plus } from "lucide-react"
 import ProfileLayout from "../component/ProfileLayout"
-
  
 export default function ManageAddresses (){
   const [showAddForm, setShowAddForm] = useState(false)
@@ -123,7 +122,16 @@ export default function ManageAddresses (){
                       landmark: "",
                     })
                   }}
-                  className="flex items-center gap-2 border border-teal-600 text-teal-600 font-semibold px-4 py-2 rounded hover:bg-teal-600 hover:text-white w-full justify-center"
+                  style={{borderColor: '#DB4444', color: '#DB4444'}}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = '#DB4444';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#DB4444';
+                  }}
+                  className="flex items-center gap-2 border font-semibold px-4 py-2 rounded w-full justify-center"
                 >
                   <Plus className="w-4 h-4" /> ADD A NEW ADDRESS
                 </button>
@@ -135,7 +143,8 @@ export default function ManageAddresses (){
                       placeholder="Name"
                       value={newAddress.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
-                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none focus:border-teal-500"
+                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none"
+                      style={{borderColor: '#DB4444'}}
                       required
                     />
                     <input
@@ -143,7 +152,8 @@ export default function ManageAddresses (){
                       placeholder="10-Digit mobile number"
                       value={newAddress.mobile}
                       onChange={(e) => handleInputChange("mobile", e.target.value)}
-                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none focus:border-teal-500"
+                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none"
+                      style={{borderColor: '#DB4444'}}
                       required
                     />
                   </div>
@@ -152,7 +162,8 @@ export default function ManageAddresses (){
                     placeholder="Address ( Area / Street )"
                     value={newAddress.address}
                     onChange={(e) => handleInputChange("address", e.target.value)}
-                    className="w-full p-3 border rounded bg-gray-100 text-sm text-gray-700 min-h-[80px] resize-y focus:outline-none focus:border-teal-500"
+                    className="w-full p-3 border rounded bg-gray-100 text-sm text-gray-700 min-h-[80px] resize-y focus:outline-none"
+                    style={{borderColor: '#DB4444'}}
                     required
                   />
  
@@ -162,7 +173,8 @@ export default function ManageAddresses (){
                       placeholder="City / District / Town"
                       value={newAddress.city}
                       onChange={(e) => handleInputChange("city", e.target.value)}
-                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none focus:border-teal-500"
+                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none"
+                      style={{borderColor: '#DB4444'}}
                       required
                     />
                     <input
@@ -170,7 +182,8 @@ export default function ManageAddresses (){
                       placeholder="Alternate Phone (Optional)"
                       value={newAddress.alternatePhone}
                       onChange={(e) => handleInputChange("alternatePhone", e.target.value)}
-                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none focus:border-teal-500"
+                      className="flex-1 p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none"
+                      style={{borderColor: '#DB4444'}}
                     />
                   </div>
  
@@ -179,14 +192,22 @@ export default function ManageAddresses (){
                     placeholder="Landmark (Optional)"
                     value={newAddress.landmark}
                     onChange={(e) => handleInputChange("landmark", e.target.value)}
-                    className="w-full p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none focus:border-teal-500"
+                    className="w-full p-3 border rounded bg-gray-100 text-sm text-gray-700 focus:outline-none"
+                    style={{borderColor: '#DB4444'}}
                   />
  
                   <div className="flex justify-center gap-4">
                     <button
                       type="button"
                       onClick={handleSave}
-                      className="bg-teal-600 text-white px-8 py-2 rounded font-semibold hover:bg-teal-700"
+                      className="text-white px-8 py-2 rounded font-semibold"
+                      style={{backgroundColor: '#DB4444'}}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.backgroundColor = '#B63B3B';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.backgroundColor = '#DB4444';
+                      }}
                     >
                       {editingAddress ? "Update" : "Save"}
                     </button>
@@ -226,7 +247,14 @@ export default function ManageAddresses (){
                     <div className="flex space-x-2 mt-3">
                       <button
                         onClick={() => handleEdit(address)}
-                        className="text-xs text-teal-600 hover:text-teal-700 font-medium"
+                        className="text-xs font-medium"
+                        style={{color: '#DB4444'}}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.color = '#B63B3B';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.color = '#DB4444';
+                        }}
                       >
                         Edit
                       </button>
@@ -247,4 +275,3 @@ export default function ManageAddresses (){
     </ProfileLayout>
   )
 }
- 

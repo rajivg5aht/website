@@ -71,7 +71,7 @@ export default function Manageaccount () {
           <h1 className="text-2xl font-semibold text-gray-900">Personal Information</h1>
           <button
             onClick={isEditing ? handleSave : handleEdit}
-            className="px-4 py-2 text-teal-600 hover:text-teal-700 font-medium"
+            className="px-4 py-2 text-[#DB4444] hover:text-[#B53A3A] font-medium"
           >
             {isEditing ? "Save" : "Edit"}
           </button>
@@ -118,9 +118,9 @@ export default function Manageaccount () {
                     value={genderOption}
                     checked={userInfo.gender === genderOption}
                     onChange={(e) => handleInputChange("gender", e.target.value)}
-                    disabled={!isEditing}
-                    className="mr-2 text-teal-600 focus:ring-teal-500"
-                  />
+                  disabled={!isEditing}
+                  className="mr-2 text-[#DB4444] focus:ring-[#DB4444]"
+                />
                   <span className="text-gray-700 capitalize">{genderOption}</span>
                 </label>
               ))}
@@ -133,7 +133,7 @@ export default function Manageaccount () {
               <h3 className="text-lg font-medium text-gray-900">Email Address</h3>
               <div className="flex space-x-4">
                 {/* These buttons can later be wired to specific modals or pages */}
-                <button className="text-teal-600 hover:text-teal-700 font-medium" disabled={!isEditing}>
+                <button className="text-[#DB4444] hover:text-[#B53A3A] font-medium" disabled={!isEditing}>
                   Edit
                 </button>
                 {/* Removed Change Password button as requested */}
@@ -157,7 +157,7 @@ export default function Manageaccount () {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-medium text-gray-900">Mobile Number</h3>
-              <button className="text-teal-600 hover:text-teal-700 font-medium" disabled={!isEditing}>
+              <button className="text-[#DB4444] hover:text-[#B53A3A] font-medium" disabled={!isEditing}>
                 Edit
               </button>
             </div>
