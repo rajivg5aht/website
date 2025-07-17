@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import coupleImage from "../assets/couple.jpg";
 import Footer from "../component/Footer";
 import standingImage from "../assets/standing.jpg"; // Assuming you have this image
+import ssImage from "../assets/ss.png";
 
 export default function About() {
   const navigate = useNavigate();
@@ -109,7 +110,7 @@ Ride Bold. Ride Safe. Ride with Helmets & Gears.
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="overflow-hidden rounded-lg shadow-lg transition-transform duration-500 hover:scale-105">
             <img
-              src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80"
+              src={ssImage}
               alt="Hand applying cream"
               className="w-full max-h-120 object-cover rounded-lg"
             />
