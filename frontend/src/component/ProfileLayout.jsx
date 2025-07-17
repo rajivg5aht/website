@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { User, History, MapPin, LogOut } from "lucide-react"
  
-const ProfileLayout = ({ children }) => {
+export default function ProfileLayout  ({ children })  {
   const navigate = useNavigate()
   const location = useLocation()
   const [showLogoutPopup, setShowLogoutPopup] = useState(false)
@@ -25,8 +25,8 @@ const ProfileLayout = ({ children }) => {
   const isActive = (path) => location.pathname === path
  
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="flex pt-[100px] min-h-screen">
+    <div className="min-h-218 bg-gray-100">
+      <div className="flex pt-[100px] min-h-218">
         <aside className="w-[250px] bg-[#f0f4f4] p-5 flex flex-col shadow-md">
           <div className="flex items-center space-x-4 mb-10 mt-5">
             <div className="w-12 h-12 rounded-full bg-gray-400"></div>
@@ -39,19 +39,19 @@ const ProfileLayout = ({ children }) => {
  
           <nav className="flex flex-col gap-4 text-left flex-1">
             <Link
-              to="#"
+              to="/manageaccount"
               className={`flex items-center px-4 py-2 rounded-md ${
-                isActive("/profile") ? "bg-teal-600 text-white" : "hover:bg-teal-600 hover:text-white"
+                isActive("/manageaccount") ? "bg-teal-600 text-white" : "hover:bg-teal-600 hover:text-white"
               }`}
             >
               <User className="mr-3 w-4 h-4" /> Profile information
             </Link>
  
             <Link
-            to="/manage-address"
-            className={`flex items-center px-4 py-2 rounded-md ${
-              isActive("/manage-address") ? "bg-teal-600 text-white" : "hover:bg-teal-600 hover:text-white"
-            }`}
+              to="/manage-address"
+              className={`flex items-center px-4 py-2 rounded-md ${
+                isActive("/manage-address") ? "bg-teal-600 text-white" : "hover:bg-teal-600 hover:text-white"
+              }`}
             >
               <MapPin className="mr-3 w-4 h-4" /> Manage Address
             </Link>
@@ -70,7 +70,7 @@ const ProfileLayout = ({ children }) => {
  
           <div
             onClick={handleLogoutClick}
-            className="mt-auto text-red-600 flex items-center cursor-pointer px-4 py-3 hover:bg-red-100 rounded-md"
+            className="mt-0 text-red-600 flex items-center cursor-pointer px-4 py-3 hover:bg-red-100 rounded-md"
           >
             <LogOut className="mr-2 w-4 h-4" /> Logout
           </div>
@@ -104,4 +104,4 @@ const ProfileLayout = ({ children }) => {
   )
 }
  
-export default ProfileLayout
+

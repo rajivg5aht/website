@@ -2,7 +2,6 @@
  
 import { useState, useEffect } from "react"
 import ProfileLayout from "../component/ProfileLayout"
-
  
 export default function Manageaccount () {
   const [isEditing, setIsEditing] = useState(false)
@@ -79,7 +78,7 @@ export default function Manageaccount () {
         </div>
  
         <div className="space-y-6">
-          {/* Name Fields */}
+          {/* Name Fields */} 
           <div className="grid grid-cols-2 gap-4">
             <input
               type="text"
@@ -137,9 +136,7 @@ export default function Manageaccount () {
                 <button className="text-teal-600 hover:text-teal-700 font-medium" disabled={!isEditing}>
                   Edit
                 </button>
-                <button className="text-teal-600 hover:text-teal-700 font-medium" disabled={!isEditing}>
-                  Change Password
-                </button>
+                {/* Removed Change Password button as requested */}
               </div>
             </div>
             <input
@@ -182,4 +179,3 @@ export default function Manageaccount () {
     </ProfileLayout>
   )
 }
- 

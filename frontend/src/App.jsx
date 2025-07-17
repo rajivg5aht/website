@@ -12,6 +12,7 @@ import Navbar from "./component/Navbar";
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
 import ManageAddress from "./pages/ManageAddress";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/productdetails/:id" element={<Productdetails />} />
         <Route path="/manageaccount" element={<Manageaccount />} />
         <Route path="/manage-address" element={<ManageAddress />} />
+        <Route path="/order-history" element={<OrderHistoryPage />} />
       </Routes>
     </>
   );
