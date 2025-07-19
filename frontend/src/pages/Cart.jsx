@@ -1,7 +1,7 @@
-"use client"
+ "use client"
 
 import { useState } from "react"
-import { Search, Heart, ShoppingCart, User, Plus, Minus, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Search, Heart, ShoppingCart, User, Plus, Minus, Trash2, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 import Footer from "../component/Footer"
 
 
@@ -10,7 +10,7 @@ import Footer from "../component/Footer"
 
 
 export default function Cart() {
-  const [quantities, setQuantities] = useState({ nepali: 1, tshirt: 2 })
+  const [quantities, setQuantities] = useState({ ridingSuits: 1, kneePads: 2 })
   const [couponCode, setCouponCode] = useState("")
 
   const updateQuantity = (item, change) => {
@@ -20,7 +20,15 @@ export default function Cart() {
     }))
   }
 
-  const subtotal = quantities.nepali * 3500 + quantities.tshirt * 6590
+  const removeItem = (item) => {
+    setQuantities((prev) => {
+      const newQuantities = { ...prev }
+      delete newQuantities[item]
+      return newQuantities
+    })
+  }
+
+  const subtotal = quantities.ridingSuits * 1550 + quantities.kneePads * 850
 
   return (
     <div className="min-h-screen bg-white">
@@ -50,79 +58,89 @@ export default function Cart() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  <tr className="hover:bg-gray-50 transition-colors hover:scale-105 transform duration-300 ease-in-out">
+                  <tr>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-16 w-16 flex items-center justify-center mr-4">
-                        <img src="/src/assets/image 19.png" alt="T-shirt" className="h-16 w-16 rounded-lg" />
+                        <img src="/src/assets/KTM suits.png" alt="Riding suits" className="h-16 w-16 rounded-lg" />
                       </div>
-                      <span className="text-sm font-medium text-gray-900">KTM riding jacket</span>
+                      <span className="text-sm font-medium text-gray-900">Riding suits</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">6590</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">1550</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center border border-gray-300 rounded-md w-20">
                       <button
-                        onClick={() => updateQuantity("tshirt", -1)}
-                        className="p-1 hover:bg-gray-100 transition-colors"
+                        onClick={() => updateQuantity("ridingSuits", -1)}
+                        className="p-1"
                       >
                         <Minus className="h-4 w-4" />
                       </button>
                       <span className="flex-1 text-center text-sm py-1">
-                        {quantities.tshirt.toString().padStart(2, "0")}
+                        {quantities.ridingSuits.toString().padStart(2, "0")}
                       </span>
                       <button
-                        onClick={() => updateQuantity("tshirt", 1)}
-                        className="p-1 hover:bg-gray-100 transition-colors"
+                        onClick={() => updateQuantity("ridingSuits", 1)}
+                        className="p-1"
                       >
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{quantities.tshirt * 1550}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 flex items-center justify-between">
+                    {quantities.ridingSuits * 1550}
+                    <button onClick={() => removeItem("ridingSuits")} className="ml-4 p-1 rounded">
+                      <Trash2 className="h-5 w-5 text-red-600" />
+                    </button>
+                  </td>
                 </tr>
-                <tr className="hover:bg-gray-50 transition-colors">
+                <tr>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="h-16 w-16 flex items-center justify-center mr-4">
-                        <img src="/src/assets/book.png" alt="knee pads" className="h-16 w-16 rounded-lg" />
+                        <img src="/src/assets/DD.png" alt="knee pads" className="h-16 w-16 rounded-lg" />
                       </div>
                       <span className="text-sm font-medium text-gray-900">knee pads</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">3500</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">850</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center border border-gray-300 rounded-md w-20">
                       <button
-                        onClick={() => updateQuantity("nepali", -1)}
-                        className="p-1 hover:bg-gray-100 transition-colors"
+                        onClick={() => updateQuantity("kneePads", -1)}
+                        className="p-1"
                       >
                         <Minus className="h-4 w-4" />
                       </button>
                       <span className="flex-1 text-center text-sm py-1">
-                        {quantities.nepali.toString().padStart(2, "0")}
+                        {quantities.kneePads.toString().padStart(2, "0")}
                       </span>
                       <button
-                        onClick={() => updateQuantity("nepali", 1)}
-                        className="p-1 hover:bg-gray-100 transition-colors"
+                        onClick={() => updateQuantity("kneePads", 1)}
+                        className="p-1"
                       >
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{quantities.nepali * 850}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 flex items-center justify-between">
+                    {quantities.kneePads * 850}
+                    <button onClick={() => removeItem("kneePads")} className="ml-4 p-1 rounded">
+                      <Trash2 className="h-5 w-5 text-red-600" />
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons */} 
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors mb-4 hover:scale-105 transform duration-300 ease-in-out">
+              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md mb-4">
                 Return To Shop
               </button>
-              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors mb-4 hover:scale-105 transform duration-300 ease-in-out">
+              <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md mb-4">
                 Update Cart
               </button>
         </div>

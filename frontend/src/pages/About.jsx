@@ -5,6 +5,8 @@ import coupleImage from "../assets/couple.jpg";
 import Footer from "../component/Footer";
 import standingImage from "../assets/standing.jpg"; // Assuming you have this image
 import ssImage from "../assets/ss.png";
+import servicingImage from "../assets/servicing.png";
+import insuranceImage from "../assets/insurance.png";
 
 export default function About() {
   const navigate = useNavigate();
@@ -129,47 +131,28 @@ Ride Bold. Ride Safe. Ride with Helmets & Gears.
 
         {/* Two Side-by-Side Sections */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left Section */}
+          {/* Left Section with one servicing.png image */}
           <div className="relative overflow-hidden rounded-lg shadow-lg group cursor-pointer">
             <img
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
-              alt="Quality & Efficacy"
+              src={servicingImage}
+              alt="Servicing"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-start p-8 text-white">
-              <h4 className="text-xl font-semibold mb-2">Quality & Efficacy</h4>
-              <p className="mb-4 text-sm">
-                or those serious about skin health, trust someone dedicated since 1985. With over 35 years of crafting certified natural cosmetics, we leverage extensive experience. Our mission is to create products beneficial for both body and planet.
-              </p>
-              <button className="inline-flex items-center px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300 rounded-md">
-                Our Best Sellers
-                <svg
-                  className="ml-2 w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </button>
-            </div>
           </div>
 
           {/* Right Section */}
           <div className="relative overflow-hidden rounded-lg shadow-lg group cursor-pointer">
             <img
-              src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=80"
-              alt="High tech Natural Skin Care"
+              src={insuranceImage}
+              alt="Insurance"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-start p-8 text-white">
-              <h4 className="text-xl font-semibold mb-2">High tech Natural Skin Care</h4>
+              <h4 className="text-xl font-semibold mb-2">"Stay Protected, Ride with Confidence"</h4>
               <p className="mb-4 text-sm">
-                We build our formulas on nature's most precious raw materials, refined with modern technologies to guarantee the best results for your skin.
+               Accidents happen when we least expect them. That’s why every purchase from us comes with optional accidental insurance — to protect you, not just your gear. Stay safe, ride smart, and shop knowing you're covered from injury and unexpected incidents.
               </p>
-              <button className="inline-flex items-center px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300 rounded-md">
+              <button className="inline-flex items-center px-6 py-2 border border-white text-white hover:bg-white hover:text-black transition-colors duration-300 rounded-md" onClick={() => navigate('/shop')}>
                 Discover More
                 <svg
                   className="ml-2 w-4 h-4"
