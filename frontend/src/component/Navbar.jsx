@@ -60,12 +60,14 @@ export default function Navbar() {
               >
                 About
               </Link>
-              <Link
-                to="/signup"
-                className="text-gray-600 hover:text-gray-900 font-medium"
-              >
-                Signup
-              </Link>
+              {!user && (
+                <Link
+                  to="/register"
+                  className="text-gray-600 hover:text-gray-900 font-medium"
+                >
+                  Signup
+                </Link>
+              )}
             </nav>
 
             {/* Right Side Icons and Search */}
@@ -100,7 +102,7 @@ export default function Navbar() {
                 <UserDropdown logout={logout} />
               ) : (
                 <Link
-                  to="/login"
+                  to="/register"
                   className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   Login

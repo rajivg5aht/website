@@ -136,7 +136,7 @@ Ride Bold. Ride Safe. Ride with Helmets & Gears.
             <img
               src={servicingImage}
               alt="Servicing"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
 
