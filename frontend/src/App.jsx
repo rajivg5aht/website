@@ -8,11 +8,12 @@ import About from "./pages/About";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
-import Navbar from "./component/Navbar";
+
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
 import ManageAddress from "./pages/ManageAddress";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
+import Navbar from "./component/navbar";
 
 function App() {
   return (

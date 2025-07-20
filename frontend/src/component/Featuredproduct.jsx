@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductCard from "./Productcard";
+import ProductCard from "./ProductCard";
 
 import halfImage from "../assets/half.png";
 import saddleImage from "../assets/saddle.png";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Productcard from "../component/Productcard";
+import Productcard from "../component/ProductCard";
 import ls2Image from "../assets/ls2.png";
 import sharkImage from "../assets/shark.png";
 import TBGImage from "../assets/TBG.png";
