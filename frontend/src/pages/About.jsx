@@ -88,8 +88,8 @@ export default function About() {
 
         {/* Text and Image Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 h-150 items-center">
-          {/* Image on the left for md and up */}
-          <div className="order-1 md:order-1">
+          {/* Image on the left for md and up */}  
+          <div className="order-2 md:order-2">
             <img
               src={standingImage}
               alt="Standing image"
@@ -98,9 +98,9 @@ export default function About() {
           </div>
 
           {/* Text content on the right for md and up */}
-          <div className="space-y-6 order-2 md:order-2">
+          <div className="space-y-6 order-1 md:order-1">
             <h3 className="text-xl font-semibold">
-              Protection isn’t just a feature — it’s a mindset. At Helmets &
+              Protection isn’t just a feature — it’s a mindset. At Helmets &  
               Gears, we craft every detail with the rider’s instinct to endure,
               to explore, and to return safely. Because every ride deserves
               armor built with purpose.
