@@ -102,7 +102,7 @@ export default function Navbar() {
                 <UserDropdown logout={logout} />
               ) : (
                 <Link
-                  to="/register"
+                  to="/login"
                   className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   Login
