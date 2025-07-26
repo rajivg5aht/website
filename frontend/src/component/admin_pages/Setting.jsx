@@ -13,10 +13,10 @@ import AdminNavbar from "../AdminNavbar";
 const AdminSettings = () => {
   const [settings, setSettings] = useState({
     general: {
-      siteName: "e-Haat",
+      siteName: "Helmets and Gears",
       siteDescription: "Your trusted online marketplace",
-      contactEmail: "admin@e-haat.com",
-      supportPhone: "+1 (555) 123-4567",
+      contactEmail: "admin@helmets.com",
+      supportPhone: "+977 9876543211",
       timezone: "UTC",
       currency: "USD",
     },
@@ -130,17 +130,6 @@ const AdminSettings = () => {
     { id: "appearance", label: "Appearance", icon: <FaPalette /> },
     { id: "payment", label: "Payment", icon: <FaCreditCard /> },
   ];
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading settings...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">

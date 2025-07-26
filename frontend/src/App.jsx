@@ -14,6 +14,7 @@ import User from "./component/admin_pages/User";
 import Product from "./component/admin_pages/Product";
 import AddProduct from "./component/admin_pages/AddProduct";
 import EditProduct from "./component/admin_pages/EditProduct";
+import Setting from "./component/admin_pages/Setting";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
@@ -50,6 +51,7 @@ function App() {
         <Route path="/admin/products" element={<Product />} />
         <Route path="/admin/products/add" element={<AddProduct />} />
         <Route path="/admin/products/edit/:productId" element={<EditProduct />} />
+        <Route path="/admin/settings" element={<Setting />} />
       </Routes>
     </>
   );
