@@ -10,6 +10,8 @@ import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
 import AdminDashboard from "./component/admin_pages/AdminDashboard";
 import Order from "./component/admin_pages/Order";
+import User from "./component/admin_pages/User";
+import Product from "./component/admin_pages/Product";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
@@ -17,10 +19,15 @@ import ManageAddress from "./pages/ManageAddress";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import Navbar from "./component/Navbar";
 
+import { useLocation } from "react-router-dom";
+
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <>
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
@@ -35,7 +42,10 @@ function App() {
         <Route path="/manage-address" element={<ManageAddress />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders" element={<Order />} />
+        <Route path="/admin/users" element={<User />} />
+        <Route path="/admin/products" element={<Product />} />
       </Routes>
     </>
   );
