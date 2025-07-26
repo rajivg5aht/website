@@ -9,6 +9,7 @@ import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
 import AdminDashboard from "./component/admin_pages/AdminDashboard";
+import Order from "./component/admin_pages/Order";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/manage-address" element={<ManageAddress />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/orders" element={<Order />} />
       </Routes>
     </>
   );
