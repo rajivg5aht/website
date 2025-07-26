@@ -279,17 +279,9 @@ const AdminSettings = () => {
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black bg-white"
                       >
                         <option value="USD" className="text-black">
-                          USD ($)
+                          Rs
                         </option>
-                        <option value="EUR" className="text-black">
-                          EUR (€)
-                        </option>
-                        <option value="GBP" className="text-black">
-                          GBP (£)
-                        </option>
-                        <option value="INR" className="text-black">
-                          INR (₹)
-                        </option>
+                       
                       </select>
                     </div>
                   </div>

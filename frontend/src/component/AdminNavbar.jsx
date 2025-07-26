@@ -84,8 +84,8 @@ function AdminNavbar() {
           >
             <img src={ehaat} alt="E-Haat Admin" className="h-10" />
             <div className="hidden md:block">
-              <span className="text-xl font-bold">e-Haat</span>
-              <span className="text-xs text-blue-300 block">Admin Panel</span>
+              <span className="text-xl font-bold"></span>
+           
             </div>
           </NavLink>
         </motion.div>
@@ -169,7 +169,7 @@ function AdminNavbar() {
                           Administrator
                         </p>
                         <p className="text-xs text-gray-500">
-                          admin@e-haat.com
+                          admin@helmets.com
                         </p>
                       </div>
                     </div>
