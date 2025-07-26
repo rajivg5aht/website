@@ -12,6 +12,8 @@ import AdminDashboard from "./component/admin_pages/AdminDashboard";
 import Order from "./component/admin_pages/Order";
 import User from "./component/admin_pages/User";
 import Product from "./component/admin_pages/Product";
+import AddProduct from "./component/admin_pages/AddProduct";
+import EditProduct from "./component/admin_pages/EditProduct";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
@@ -46,6 +48,8 @@ function App() {
         <Route path="/admin/orders" element={<Order />} />
         <Route path="/admin/users" element={<User />} />
         <Route path="/admin/products" element={<Product />} />
+        <Route path="/admin/products/add" element={<AddProduct />} />
+        <Route path="/admin/products/edit/:productId" element={<EditProduct />} />
       </Routes>
     </>
   );

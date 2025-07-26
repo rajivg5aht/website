@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FaUpload,
@@ -6,14 +6,17 @@ import {
   FaSave,
   FaArrowLeft,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "../AdminNavbar";
 
-export default function AddProduct() {
+export default function EditProduct() {
   const navigate = useNavigate();
+  const { productId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -33,12 +36,73 @@ export default function AddProduct() {
   });
 
   const categories = [
-    "Helmets",
-    "Riiding Gear",
-    "Gloves",
-    "Accessories",
-
+    "Electronics",
+    "Computers",
+    "Clothing",
+    "Footwear",
+    "Home & Garden",
+    "Beauty & Health",
+    "Sports & Outdoors",
+    "Books & Media",
+    "Toys & Games",
+    "Automotive",
   ];
+
+  useEffect(() => {
+    fetchProduct();
+  }, [productId]);
+
+  const fetchProduct = async () => {
+    try {
+      setIsLoadingProduct(true);
+      const adminToken = localStorage.getItem("adminToken");
+
+      const response = await fetch(
+        `http://localhost:5000/api/admin/products/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const product = data.product;
+
+        setFormData({
+          name: product.name || "",
+          description: product.description || "",
+          price: product.price || "",
+          originalPrice: product.originalPrice || "",
+          category: product.category || "",
+          subcategory: product.subcategory || "",
+          stock: product.stock || "",
+          brand: product.brand || "",
+          sellerName: product.sellerName || "",
+          location: product.location || "",
+          isActive: product.isActive !== undefined ? product.isActive : true,
+          isFeatured: product.isFeatured || false,
+          tags: product.tags ? product.tags.join(", ") : "",
+          specifications: product.specifications || {},
+        });
+
+        if (product.images && product.images.length > 0) {
+          setExistingImages(product.images);
+        }
+      } else {
+        alert("The product you're trying to edit doesn't exist.");
+        navigate("/admin/products");
+      }
+    } catch (error) {
+      console.error("Fetch product error:", error);
+      alert("Unable to load product data.");
+      navigate("/admin/products");
+    } finally {
+      setIsLoadingProduct(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -81,6 +145,10 @@ export default function AddProduct() {
     setPreviewImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const removeExistingImage = (index) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,19 +157,12 @@ export default function AddProduct() {
       return;
     }
 
-    if (images.length === 0) {
-      alert("Please upload at least one product image.");
-      return;
-    }
-
     try {
       setIsLoading(true);
       const adminToken = localStorage.getItem("adminToken");
 
-      // Create FormData for file upload
       const submitData = new FormData();
 
-      // Add form fields
       Object.keys(formData).forEach((key) => {
         if (key === "tags") {
           submitData.append(
@@ -115,33 +176,51 @@ export default function AddProduct() {
         }
       });
 
-      // Add images
-      images.forEach((image, index) => {
+      images.forEach((image) => {
         submitData.append("images", image);
       });
 
-      const response = await fetch("http://localhost:5000/api/admin/products", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-        },
-        body: submitData,
-      });
+      submitData.append("existingImages", JSON.stringify(existingImages));
+
+      const response = await fetch(
+        `http://localhost:5000/api/admin/products/${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+          },
+          body: submitData,
+        }
+      );
 
       if (response.ok) {
-        alert("Product has been successfully added!");
+        alert("Product has been successfully updated!");
         navigate("/admin/products");
       } else {
         const error = await response.json();
-        alert(error.message || "Failed to add product.");
+        alert(error.message || "Failed to update product.");
       }
     } catch (error) {
-      console.error("Add product error:", error);
-      alert("Unable to add product.");
+      console.error("Update product error:", error);
+      alert("Unable to update product.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isLoadingProduct) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading product data...</p>
+          <p className="mt-2 text-sm text-gray-500">
+            Please wait while we fetch the product details
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,15 +236,14 @@ export default function AddProduct() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Header */}
           <div className="p-6 border-b">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  Add New Product
+                  Edit Product
                 </h1>
                 <p className="text-gray-600">
-                  Create a new product for the e-Haat catalog
+                  Update product information in the e-Haat catalog
                 </p>
               </div>
               <button
@@ -178,10 +256,8 @@ export default function AddProduct() {
             </div>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Basic Information */}
               <div className="md:col-span-2">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Basic Information
@@ -291,7 +367,6 @@ export default function AddProduct() {
                 </div>
               </div>
 
-              {/* Description */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Description *
@@ -307,7 +382,6 @@ export default function AddProduct() {
                 />
               </div>
 
-              {/* Additional Information */}
               <div className="md:col-span-2">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Additional Information
@@ -365,120 +439,144 @@ export default function AddProduct() {
                       value={formData.tags}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black bg-white"
-                      placeholder="tag1, tag2, tag3"
+                      placeholder="Enter tags separated by commas"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Image Upload */}
-              <div className="md:col-span-2">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Product Images
-                </h3>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                    <FaUpload className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="mt-4">
-                      <label htmlFor="image-upload" className="cursor-pointer">
-                        <span className="text-blue-600 hover:text-blue-500 font-medium">
-                          Click to upload images
-                        </span>
-                        <span className="text-gray-500"> or drag and drop</span>
-                      </label>
-                      <input
-                        id="image-upload"
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="hidden"
-                      />
-                    </div>
-                    <p className="text-sm text-gray-500 mt-2">
-                      PNG, JPG, GIF up to 5MB each (max 5 images)
-                    </p>
-                  </div>
-
-                  {/* Image Previews */}
-                  {previewImages.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                      {previewImages.map((preview, index) => (
-                        <div key={index} className="relative group">
-                          <img
-                            src={preview}
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeImage(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <FaTrash className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Product Status */}
               <div className="md:col-span-2">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Product Status
                 </h3>
-                <div className="flex items-center space-x-6">
-                  <label className="flex items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center">
                     <input
                       type="checkbox"
                       name="isActive"
                       checked={formData.isActive}
                       onChange={handleInputChange}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Active</span>
-                  </label>
-                  <label className="flex items-center">
+                    <label className="ml-2 block text-sm text-gray-900">
+                      Active Product
+                    </label>
+                  </div>
+
+                  <div className="flex items-center">
                     <input
                       type="checkbox"
                       name="isFeatured"
                       checked={formData.isFeatured}
                       onChange={handleInputChange}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
-                    <span className="ml-2 text-sm text-gray-700">
+                    <label className="ml-2 block text-sm text-gray-900">
                       Featured Product
-                    </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-2">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Product Images
+                </h3>
+
+                {existingImages.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">
+                      Current Images
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {existingImages.map((image, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={`http://localhost:5000${image}`}
+                            alt={`Product ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeExistingImage(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                          >
+                            <FaTrash className="text-xs" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Add New Images
                   </label>
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <FaUpload className="text-gray-400 text-3xl mb-2" />
+                      <span className="text-sm text-gray-600">
+                        Click to upload images (max 5)
+                      </span>
+                    </label>
+                  </div>
+
+                  {previewImages.length > 0 && (
+                    <div className="mt-4">
+                      <h4 className="text-sm font-medium text-gray-700 mb-3">
+                        New Images Preview
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {previewImages.map((preview, index) => (
+                          <div key={index} className="relative">
+                            <img
+                              src={preview}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-24 object-cover rounded-lg border"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                            >
+                              <FaTrash className="text-xs" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="mt-8 flex justify-end space-x-4">
-              <button
-                type="button"
-                onClick={() => navigate("/admin/products")}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
+            <div className="mt-8 flex justify-end">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center"
+                className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
               >
                 {isLoading ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Adding...
+                    Updating...
                   </>
                 ) : (
                   <>
                     <FaSave className="mr-2" />
-                    Add Product
+                    Update Product
                   </>
                 )}
               </button>
