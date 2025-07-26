@@ -8,12 +8,13 @@ import About from "./pages/About";
 import Cart from "./pages/Cart";
 import Shop from "./pages/Shop";
 import Productdetails from "./pages/Productdetails";
+import AdminDashboard from "./component/admin_pages/AdminDashboard";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
 import ManageAddress from "./pages/ManageAddress";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
-import Navbar from "./component/navbar";
+import Navbar from "./component/Navbar";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/manageaccount" element={<Manageaccount />} />
         <Route path="/manage-address" element={<ManageAddress />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </>
   );
