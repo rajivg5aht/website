@@ -629,20 +629,20 @@ const AdminSettings = () => {
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div>
                         <h3 className="font-medium text-gray-900">
-                          PayPal Payments
+                          esewa Payments
                         </h3>
                         <p className="text-sm text-gray-600">
-                          Enable PayPal payment processing
+                          Enable esewa payment processing
                         </p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={settings.payment.paypalEnabled}
+                          checked={settings.payment.esewaEnabled}
                           onChange={(e) =>
                             handleSettingChange(
                               "payment",
-                              "paypalEnabled",
+                              "esewaEnabled",
                               e.target.checked
                             )
                           }
