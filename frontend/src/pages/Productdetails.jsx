@@ -1,128 +1,41 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, Heart, Truck, RotateCcw, Plus, Minus } from 'lucide-react';
-import ls2Image from '../assets/ls2.png';
-import sharkImage from '../assets/shark.png';
-import TBGImage from '../assets/TBG.png';
-import iconImage from '../assets/icon.png';
-import kytImage from '../assets/kyt.png';
-import alpinstarSuitsImage from '../assets/Alpinstarsuits.png';
-import ktmSuitsImage from '../assets/KTM suits.png';
-import ddImage from '../assets/DD.png';
-import saddleImage from '../assets/saddle.png';
-import dominoImage from '../assets/domino.png';
-
-const products = [
-  {
-    id: 1,
-    image: ls2Image,
-    title: "Ls2 carbon Fiber Helmet",
-    category: "Helmets",
-    rating: 3.5,
-    price: 70000,
-    oldPrice: null,
-    discount: null,
-  },
-  {
-    id: 2,
-    image: sharkImage,
-    title: "Shark Helmet",
-    category: "Helmets",
-    rating: 3.5,
-    price: 60000,
-    oldPrice: null,
-    discount: null,
-  },
-  {
-    id: 3,
-    image: kytImage,
-    title: "Kyt Helmet",
-    category: "Helmets",
-    rating: 4.0,
-    price: 65000,
-    oldPrice: null,
-    discount: null,
-  },
-  {
-    id: 4,
-    image: iconImage,
-    title: "Icon Gloves",
-    category: "Gloves",
-    rating: 4.5,
-    price: 180,
-    oldPrice: null,
-    discount: null,
-  },
-  {
-    id: 5,
-    image: TBGImage,
-    title: "TBG Gloves",
-    category: "Gloves",
-    rating: 5.0,
-    price: 120,
-    oldPrice: 150,
-    discount: 30,
-  },
-  {
-    id: 6,
-    image: alpinstarSuitsImage,
-    title: "Alpinstar Riding Suit",
-    category: "Riding Suits",
-    rating: 4.2,
-    price: 400,
-    oldPrice: 450,
-    discount: 50,
-  },
-  {
-    id: 7,
-    image: ktmSuitsImage,
-    title: "KTM Riding Suit",
-    category: "Riding Suits",
-    rating: 4.3,
-    price: 420,
-    oldPrice: 470,
-    discount: 50,
-  },
-  {
-    id: 8,
-    image: ddImage,
-    title: "Riding Suit Classic",
-    category: "Riding Suits",
-    rating: 4.0,
-    price: 350,
-    oldPrice: 400,
-    discount: 50,
-  },
-  {
-    id: 9,
-    image: dominoImage,
-    title: "Domino",
-    category: "Accessories",
-    rating: 4.0,
-    price: 60,
-    oldPrice: 70,
-    discount: 10,
-  },
-  {
-    id: 10,
-    image: saddleImage,
-    title: "Saddle Bag",
-    category: "Accessories",
-    rating: 4.1,
-    price: 90,
-    oldPrice: 100,
-    discount: 10,
-  },
-];
+import { getProductById } from '../service/productApi';
 
 const Product = () => {
   const { id } = useParams();
-  const product = products.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        const data = await getProductById(id);
+        setProduct(data);
+      } catch (err) {
+        setError("Failed to load product");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading product...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen flex items-center justify-center text-red-600">{error}</div>;
+  }
 
   if (!product) {
     return <div className="min-h-screen flex items-center justify-center">Product not found</div>;
@@ -149,10 +62,10 @@ const Product = () => {
       {/* Product Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-          {/* Product Image */}
+          {/* Product Image */} 
           <div className="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[520px] bg-gray-100 rounded-lg overflow-hidden">
             <img
-              src={product.image}
+              src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:3000${product.imageUrl}`) : ''}
               alt={product.title}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             />

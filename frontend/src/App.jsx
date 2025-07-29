@@ -1,5 +1,4 @@
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -15,6 +14,7 @@ import Product from "./component/admin_pages/Product";
 import AddProduct from "./component/admin_pages/AddProduct";
 import EditProduct from "./component/admin_pages/EditProduct";
 import Setting from "./component/admin_pages/Setting";
+import AdminLogin from "./component/admin_pages/AdminLogin";
 
 import Landing from "./pages/landing";
 import Manageaccount from "./pages/Manageaccount";
@@ -22,16 +22,47 @@ import ManageAddress from "./pages/ManageAddress";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import Navbar from "./component/Navbar";
 
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
+function RequireAdmin({ children }) {
+  const isAdmin = localStorage.getItem('role') === 'admin' && localStorage.getItem('adminToken');
+  if (!isAdmin) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return children;
+}
 
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
 
+  useEffect(() => {
+    // Optionally, clear admin token if not on admin route
+    // if (!isAdminRoute) localStorage.removeItem('adminToken');
+  }, [isAdminRoute]);
+
   return (
     <>
       {!isAdminRoute && <Navbar />}
       <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/*"
+          element={
+            <RequireAdmin>
+              <Routes>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="orders" element={<Order />} />
+                <Route path="users" element={<User />} />
+                <Route path="products" element={<Product />} />
+                <Route path="products/add" element={<AddProduct />} />
+                <Route path="products/edit/:productId" element={<EditProduct />} />
+                <Route path="settings" element={<Setting />} />
+                <Route path="*" element={<Navigate to="/admin/dashboard" />} />
+              </Routes>
+            </RequireAdmin>
+          }
+        />
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -44,14 +75,7 @@ function App() {
         <Route path="/manageaccount" element={<Manageaccount />} />
         <Route path="/manage-address" element={<ManageAddress />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/orders" element={<Order />} />
-        <Route path="/admin/users" element={<User />} />
-        <Route path="/admin/products" element={<Product />} />
-        <Route path="/admin/products/add" element={<AddProduct />} />
-        <Route path="/admin/products/edit/:productId" element={<EditProduct />} />
-        <Route path="/admin/settings" element={<Setting />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   );

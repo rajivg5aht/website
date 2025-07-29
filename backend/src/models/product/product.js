@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/index.js";
 
-export const User = sequelize.define("User", {
+export const Product = sequelize.define("Product", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,16 +11,25 @@ export const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
-    type: DataTypes.STRING,
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  price: {
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
-  password: {
+  imageUrl: {
     type: DataTypes.STRING,
+    allowNull: true,
   },
-  role: {
+  category: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  stock: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 'user', // can be 'user' or 'admin'
+    defaultValue: 0,
   },
 });

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export default function ProductCard({ name, price, originalPrice, image, discount, showAddToCart = true, hideDollarSign = false, onClick, onAddToCart }) {
   const [hovered, setHovered] = useState(false);
+  const fallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='12' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E";
 
   return (
     <div
@@ -11,7 +12,7 @@ export default function ProductCard({ name, price, originalPrice, image, discoun
       onMouseLeave={() => setHovered(false)}
     >
       <div className="relative w-full mb-4 rounded-md overflow-hidden">
-        <img src={image} alt={name} className="w-full h-64 object-cover rounded-md" />
+        <img src={image || fallback} alt={name} className="w-full h-64 object-cover rounded-md" />
         {/* Removed discount badge display as per user request */}
         {showAddToCart && (
           <div className={`absolute top-2 right-2 flex flex-col space-y-2 opacity-0 transition-opacity duration-300 ${hovered ? "opacity-100" : ""}`}>

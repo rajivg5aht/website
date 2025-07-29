@@ -1,72 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
-
-import halfImage from "../assets/half.png";
-import saddleImage from "../assets/saddle.png";
-import apHelmetImage from "../assets/Aphelmet.webp";
-import ls2Image from "../assets/ls2.png";
-
-const featuredProducts = [
-  {
-    id: "1",
-    name: "Alpinstar racing Helmet",
-    price: 299,
-    originalPrice: 399,
-    image: apHelmetImage,
-    rating: 4.8,
-    reviews: 124,
-  },
-  {
-    id: "2",
-    name: "ls2 Carbon Fiber Helmet",
-    price: 249,
-    image: ls2Image,
-    rating: 4.9,
-    reviews: 89,
-  },
-  {
-    id: "3",
-    name: "Saddle bag",
-    price: 799,
-    originalPrice: 999,
-    image: saddleImage,
-    rating: 4.7,
-    reviews: 67,
-  },
-  {
-    id: "4",
-    name: "Half finger Gloves",
-    price: 159,
-    image: halfImage,
-    rating: 4.6,
-    reviews: 156,
-  },
-  {
-    id: "5",
-    name: "Motorcycle Gloves with Reinforced Knuckles",
-    price: 89,
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    rating: 4.5,
-    reviews: 45,
-  },
-  {
-    id: "6",
-    name: "High-Visibility Reflective Vest",
-    price: 49,
-    image:
-      "https://images.unsplash.com/photo-1520975695911-0a7a7a7a7a7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    rating: 4.4,
-    reviews: 32,
-  },
-];
+import { getProducts } from "../service/productApi";
 
 export default function FeaturedProducts() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [showAll, setShowAll] = useState(false);
   const navigate = useNavigate();
 
-  const productsToShow = showAll ? featuredProducts : featuredProducts.slice(0, 4);
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        const data = await getProducts();
+        setProducts(data);
+      } catch (err) {
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  const productsToShow = showAll ? products : products.slice(0, 4);
 
   const handleAddToCart = (id) => {
     navigate(`/productdetails/${id}`);
@@ -75,6 +34,13 @@ export default function FeaturedProducts() {
   const handleProductClick = (id) => {
     navigate(`/productdetails/${id}`);
   };
+
+  if (loading) {
+    return <div className="text-center py-8">Loading products...</div>;
+  }
+  if (error) {
+    return <div className="text-center py-8 text-red-600">{error}</div>;
+  }
 
   return (
     <section className="py-8 bg-gray-50">
@@ -93,6 +59,7 @@ export default function FeaturedProducts() {
             <ProductCard
               key={product.id}
               {...product}
+              image={product.imageUrl ? `http://localhost:3000${product.imageUrl}` : ''}
               onAddToCart={() => handleAddToCart(product.id)}
               onClick={() => handleProductClick(product.id)}
             />

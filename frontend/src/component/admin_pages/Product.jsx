@@ -36,18 +36,10 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const adminToken = localStorage.getItem("adminToken");
-
-      const response = await fetch("http://localhost:5000/api/admin/products", {
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-          "Content-Type": "application/json",
-        },
-      });
-
+      const response = await fetch("http://localhost:3000/api/products");
       if (response.ok) {
         const data = await response.json();
-        setProducts(data.products);
+        setProducts(data);
       } else {
         console.error("Failed to fetch products");
       }
@@ -60,13 +52,9 @@ const Product = () => {
 
   const filterProducts = () => {
     let filtered = products;
-
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(
-        (product) => product.category === categoryFilter
-      );
+      filtered = filtered.filter((product) => product.category === categoryFilter);
     }
-
     if (statusFilter !== "all") {
       filtered = filtered.filter((product) => {
         if (statusFilter === "active") return product.isActive;
@@ -75,7 +63,6 @@ const Product = () => {
         return true;
       });
     }
-
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
       filtered = filtered.filter(
@@ -86,7 +73,6 @@ const Product = () => {
           (product.brand && product.brand.toLowerCase().includes(lowerSearch))
       );
     }
-
     setFilteredProducts(filtered);
   };
 
@@ -371,8 +357,8 @@ const Product = () => {
                           <img
                             className="h-12 w-12 rounded-lg object-cover"
                             src={
-                              product.images && product.images.length > 0
-                                ? `http://localhost:5000${product.images[0]}`
+                              product.imageUrl
+                                ? `http://localhost:3000${product.imageUrl}`
                                 : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='12' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E"
                             }
                             alt={product.name}
@@ -505,21 +491,17 @@ const Product = () => {
             </div>
             <div className="p-6">
               {/* Product Images */}
-              {selectedProduct.images && selectedProduct.images.length > 0 && (
+              {selectedProduct.imageUrl && (
                 <div className="mb-6">
                   <h4 className="font-medium text-black mb-3">
-                    Product Images
+                    Product Image
                   </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {selectedProduct.images.map((image, index) => (
-                      <div key={index} className="relative">
-                        <img
-                          src={`http://localhost:5000${image}`}
-                          alt={`${selectedProduct.name} - Image ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-lg border"
-                        />
-                      </div>
-                    ))}
+                  <div className="relative">
+                    <img
+                      src={`http://localhost:3000${selectedProduct.imageUrl}`}
+                      alt={`${selectedProduct.name} - Image`}
+                      className="w-full h-48 object-cover rounded-lg border"
+                    />
                   </div>
                 </div>
               )}

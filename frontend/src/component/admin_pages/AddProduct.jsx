@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../AdminNavbar";
+import { createProduct } from "../../service/productApi";
 
 export default function AddProduct() {
   const navigate = useNavigate();
@@ -37,7 +38,6 @@ export default function AddProduct() {
     "Riiding Gear",
     "Gloves",
     "Accessories",
-
   ];
 
   const handleInputChange = (e) => {
@@ -96,45 +96,18 @@ export default function AddProduct() {
 
     try {
       setIsLoading(true);
-      const adminToken = localStorage.getItem("adminToken");
-
-      // Create FormData for file upload
-      const submitData = new FormData();
-
-      // Add form fields
-      Object.keys(formData).forEach((key) => {
-        if (key === "tags") {
-          submitData.append(
-            key,
-            formData[key].split(",").map((tag) => tag.trim())
-          );
-        } else if (key === "specifications") {
-          submitData.append(key, JSON.stringify(formData[key]));
-        } else {
-          submitData.append(key, formData[key]);
-        }
-      });
-
-      // Add images
-      images.forEach((image, index) => {
-        submitData.append("images", image);
-      });
-
-      const response = await fetch("http://localhost:5000/api/admin/products", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-        },
-        body: submitData,
-      });
-
-      if (response.ok) {
-        alert("Product has been successfully added!");
-        navigate("/admin/products");
-      } else {
-        const error = await response.json();
-        alert(error.message || "Failed to add product.");
-      }
+      // Only send the first image for now
+      const productData = {
+        name: formData.name,
+        description: formData.description,
+        price: formData.price,
+        category: formData.category,
+        stock: formData.stock,
+        image: images[0],
+      };
+      await createProduct(productData);
+      alert("Product has been successfully added!");
+      navigate("/admin/products");
     } catch (error) {
       console.error("Add product error:", error);
       alert("Unable to add product.");
