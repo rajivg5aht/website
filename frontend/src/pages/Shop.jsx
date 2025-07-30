@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProductCard from "../component/ProductCard";
+import ProductCard from "../component/Productcard";
 import { getProducts } from "../service/productApi";
 
 const categories = ["Helmets", "Riding Suits", "Gloves", "Accessories"];
@@ -230,13 +230,19 @@ export default function Shop() {
             {currentProducts.map(product => (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 name={product.title}
                 price={product.price}
                 originalPrice={product.oldPrice}
                 discount={product.discount}
-                image={product.imageUrl ? product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:3000${product.imageUrl}` : ''}
+                image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : ''}
                 onClick={() => navigate(`/productdetails/${product.id}`)}
-                onAddToCart={() => navigate(`/cart`)}
+                onAddToCart={() => {
+                  import("../utils/cart").then(({ addToCart }) => {
+                    addToCart(product.id, 1);
+                    alert(`${product.name || product.title} added to cart`);
+                  });
+                }}
               />
             ))}
           </div>

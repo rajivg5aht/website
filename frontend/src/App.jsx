@@ -21,6 +21,7 @@ import Manageaccount from "./pages/Manageaccount";
 import ManageAddress from "./pages/ManageAddress";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import Navbar from "./component/Navbar";
+import Checkout from "./pages/Checkout";
 
 import { useEffect } from "react";
 
@@ -70,6 +71,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/productdetails" element={<Productdetails />} />
         <Route path="/productdetails/:id" element={<Productdetails />} />
         <Route path="/manageaccount" element={<Manageaccount />} />

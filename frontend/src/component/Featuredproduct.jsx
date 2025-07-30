@@ -28,7 +28,10 @@ export default function FeaturedProducts() {
   const productsToShow = showAll ? products : products.slice(0, 4);
 
   const handleAddToCart = (id) => {
-    navigate(`/productdetails/${id}`);
+    import("../utils/cart").then(({ addToCart }) => {
+      addToCart(id, 1);
+      alert("Product added to cart");
+    });
   };
 
   const handleProductClick = (id) => {
@@ -59,7 +62,7 @@ export default function FeaturedProducts() {
             <ProductCard
               key={product.id}
               {...product}
-              image={product.imageUrl ? `http://localhost:3000${product.imageUrl}` : ''}
+              image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : ''}
               onAddToCart={() => handleAddToCart(product.id)}
               onClick={() => handleProductClick(product.id)}
             />

@@ -36,7 +36,7 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:3000/api/products");
+      const response = await fetch("http://localhost:5000/api/products");
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
@@ -356,9 +356,9 @@ const Product = () => {
                         <div className="flex-shrink-0 h-12 w-12">
                           <img
                             className="h-12 w-12 rounded-lg object-cover"
-                            src={
+                          src={
                               product.imageUrl
-                                ? `http://localhost:3000${product.imageUrl}`
+                                ? `http://localhost:5000${product.imageUrl}`
                                 : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='12' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E"
                             }
                             alt={product.name}
@@ -497,8 +497,8 @@ const Product = () => {
                     Product Image
                   </h4>
                   <div className="relative">
-                    <img
-                      src={`http://localhost:3000${selectedProduct.imageUrl}`}
+                <img
+                      src={`http://localhost:5000${selectedProduct.imageUrl}`}
                       alt={`${selectedProduct.name} - Image`}
                       className="w-full h-48 object-cover rounded-lg border"
                     />

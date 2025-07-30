@@ -1,8 +1,19 @@
 import { useState } from "react";
+import { addToCart } from "../utils/cart";
 
-export default function ProductCard({ name, price, originalPrice, image, discount, showAddToCart = true, hideDollarSign = false, onClick, onAddToCart }) {
+export default function ProductCard({ id, name, price, originalPrice, image, discount, showAddToCart = true, hideDollarSign = false, onClick, onAddToCart }) {
   const [hovered, setHovered] = useState(false);
   const fallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='12' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E";
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    if (onAddToCart) {
+      onAddToCart();
+    } else {
+      addToCart(id, 1);
+      alert(`${name} added to cart`);
+    }
+  };
 
   return (
     <div
@@ -30,10 +41,7 @@ export default function ProductCard({ name, price, originalPrice, image, discoun
         )}
         {showAddToCart && hovered && (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (onAddToCart) onAddToCart();
-            }}
+            onClick={handleAddToCart}
             className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white py-3 font-semibold rounded-b-md shadow-lg transform hover:scale-105 transition-transform duration-300"
           >
             Add to Cart

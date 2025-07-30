@@ -1,6 +1,6 @@
 // Product API service
 
-const API_URL = 'http://localhost:3000/api/products';
+const API_URL = 'http://localhost:5000/api/products';
 
 export async function getProducts() {
   const res = await fetch(API_URL);
@@ -68,4 +68,4 @@ export async function deleteProduct(id) {
   });
   if (!res.ok) throw new Error('Failed to delete product');
   return res.json();
-} 
+}
