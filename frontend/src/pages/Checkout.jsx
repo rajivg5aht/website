@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaUser, FaMoneyBillWave, FaTruck, FaShieldAlt, FaUndo, FaCheck } from "react-icons/fa";
 import { createOrder } from "../service/orderApi";
+import { getProductById } from "../service/productApi";
 import { AuthContext } from "../context/AuthContext";
 
 function formatPrice(amount) {
@@ -16,8 +17,10 @@ export default function Checkout() {
   const [dummyCart, setDummyCart] = useState(() => {
     try {
       const cart = localStorage.getItem("cart");
+      console.log('Cart from localStorage in Checkout:', cart);
       return cart ? JSON.parse(cart) : [];
-    } catch {
+    } catch (error) {
+      console.error('Error parsing cart from localStorage:', error);
       return [];
     }
   });
@@ -59,11 +62,21 @@ export default function Checkout() {
 
   React.useEffect(() => {
     async function fetchCartProducts() {
+      console.log("dummyCart in Checkout:", dummyCart);
       const products = [];
       let total = 0;
+      
+      // Check if cart is empty before proceeding
+      if (!dummyCart || dummyCart.length === 0) {
+        setCartProducts([]);
+        setSubtotal(0);
+        return;
+      }
+      
       for (const item of dummyCart) {
         try {
           const product = await getProductById(item.productId);
+          console.log("Fetched product:", product);
           products.push({ ...product, quantity: item.quantity });
           total += product.price * item.quantity;
         } catch (error) {
@@ -186,10 +199,41 @@ export default function Checkout() {
     }
   };
 
+  // Add a refresh function to reload cart data
+  const refreshCart = () => {
+    try {
+      const cart = localStorage.getItem("cart");
+      console.log('Refreshing cart from localStorage:', cart);
+      if (cart) {
+        setDummyCart(JSON.parse(cart));
+      } else {
+        setDummyCart([]);
+      }
+    } catch (error) {
+      console.error('Error refreshing cart:', error);
+      setDummyCart([]);
+    }
+  };
+
+  // Add a refresh button
   if (cartProducts.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Your cart is empty. Please add products before checkout.</p>
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p className="mb-4">Your cart is empty. Please add products before checkout.</p>
+        <div className="flex space-x-4">
+          <button 
+            onClick={() => navigate('/shop')} 
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Go to Shop
+          </button>
+          <button 
+            onClick={refreshCart} 
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+          >
+            Refresh Cart
+          </button>
+        </div>
       </div>
     );
   }

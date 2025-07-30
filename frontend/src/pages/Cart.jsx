@@ -33,6 +33,28 @@ export default function Cart() {
     fetchCartProducts()
   }, [])
 
+  // Add a refresh function to reload cart data
+  const refreshCart = () => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log('Refreshing cart from localStorage:', storedCart);
+    async function fetchCartProducts() {
+      const products = [];
+      const qtys = {};
+      for (const item of storedCart) {
+        try {
+          const product = await getProductById(item.productId);
+          products.push(product);
+          qtys[item.productId] = item.quantity;
+        } catch (error) {
+          console.error("Failed to fetch product", item.productId, error);
+        }
+      }
+      setCartItems(products);
+      setQuantities(qtys);
+    }
+    fetchCartProducts();
+  };
+
   // Update quantity in state and localStorage
   const updateQuantity = (productId, change) => {
     setQuantities((prev) => {
@@ -56,11 +78,16 @@ export default function Cart() {
 
   // Update localStorage cart data based on quantities
   const updateLocalStorage = (newQuantities) => {
-    const newCart = cartItems
-      .filter((p) => newQuantities[p.id] > 0)
-      .map((p) => ({ productId: p.id, quantity: newQuantities[p.id] }))
-    localStorage.setItem("cart", JSON.stringify(newCart))
-  }
+    // Use the keys from newQuantities to build the cart array
+    const newCart = Object.keys(newQuantities)
+      .filter((productId) => newQuantities[productId] > 0)
+      .map((productId) => ({
+        productId,
+        quantity: newQuantities[productId],
+      }));
+    console.log('Updating cart in localStorage:', newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  };
 
   // Calculate subtotal
   const subtotal = cartItems.reduce((acc, product) => {
@@ -145,8 +172,8 @@ export default function Cart() {
         <button onClick={() => navigate('/shop')} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md mb-4">
           Return To Shop
         </button>
-        <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md mb-4" onClick={() => window.location.reload()}>
-          Update Cart
+        <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md mb-4" onClick={refreshCart}>
+          Refresh Cart
         </button>
       </div>
 

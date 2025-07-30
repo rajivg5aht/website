@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, Heart, Truck, RotateCcw, Plus, Minus } from 'lucide-react';
 import { getProductById } from '../service/productApi';
+import { addToCart } from '../utils/cart';
 
 const Product = () => {
   const { id } = useParams();
@@ -28,6 +29,11 @@ const Product = () => {
     }
     fetchProduct();
   }, [id]);
+
+  const handleAddToCart = () => {
+    addToCart(product.id, quantity);
+    alert(`${product.name} added to cart`);
+  };
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading product...</div>;
@@ -138,6 +144,12 @@ const Product = () => {
               </div>
               <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-2 rounded-md transition-colors">
                 Buy Now
+              </button>
+              <button 
+                onClick={handleAddToCart}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-2 rounded-md transition-colors"
+              >
+                Add to Cart
               </button>
               <button className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                 <Heart className="h-5 w-5" />
