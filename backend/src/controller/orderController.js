@@ -23,9 +23,15 @@ export const createOrder = async (req, res) => {
     if (!userId || !quantity || !totalAmount || !paymentMethod || !paymentStatus) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    
+    // Ensure userId is a number
+    const userIdNum = parseInt(userId, 10);
+    if (isNaN(userIdNum)) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
 
     const order = await Order.create({
-      userId,
+      userId: userIdNum,
       productId,
       quantity,
       address,

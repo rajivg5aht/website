@@ -8,6 +8,7 @@ import uploadRoutes from "./route/uploadRoutes.js";
 import orderRoutes from "./route/orderRoute.js";
 import adminOrderRoutes from "./route/adminOrderRoute.js";
 import contactRoutes from "./route/contactRoute.js";
+import { setupAssociations } from "./models/associations.js";
 
 const app = express();
 
@@ -26,6 +27,9 @@ app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/contacts", contactRoutes);
 
 const PORT = process.env.PORT || 3000;
+
+// Set up model associations
+setupAssociations();
 
 sequelize.sync().then(() => {
   app.listen(process.env.PORT || 5000, () => {

@@ -10,7 +10,8 @@ export const getAllOrders = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ["id", "firstName", "lastName", "email"],
+          as: 'User',
+          attributes: ["id", "name", "email"],
         },
       ],
       order: [["createdAt", "DESC"]],

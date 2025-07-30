@@ -63,7 +63,7 @@ const AdminOrders = () => {
 
     // Filter by status
     if (statusFilter !== "all") {
-      filtered = filtered.filter((order) => order.orderStatus === statusFilter);
+      filtered = filtered.filter((order) => order.status === statusFilter);
     }
 
     // Filter by search term
@@ -317,7 +317,7 @@ const AdminOrders = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">
-                            {order.User?.firstName} {order.User?.lastName}
+                            {order.User?.name}
                           </div>
                           <div className="text-sm text-gray-500">
                             {order.User?.email}
@@ -333,12 +333,12 @@ const AdminOrders = () => {
                         <div className="flex items-center">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                              order.orderStatus
+                              order.status
                             )}`}
                           >
-                            {getStatusIcon(order.orderStatus)}
+                            {getStatusIcon(order.status)}
                             <span className="ml-1 capitalize">
-                              {order.orderStatus}
+                              {order.status}
                             </span>
                           </span>
                         </div>
@@ -355,7 +355,7 @@ const AdminOrders = () => {
                             <FaEye />
                           </button>
                           <select
-                            value={order.orderStatus}
+                            value={order.status}
                             onChange={(e) =>
                               updateOrderStatus(order.id, e.target.value)
                             }
@@ -425,8 +425,7 @@ const AdminOrders = () => {
                   <div className="space-y-2 text-sm">
                     <p>
                       <span className="font-medium">Name:</span>{" "}
-                      {selectedOrder.User?.firstName}{" "}
-                      {selectedOrder.User?.lastName}
+                      {selectedOrder.User?.name}
                     </p>
                     <p>
                       <span className="font-medium">Email:</span>{" "}
@@ -440,12 +439,12 @@ const AdminOrders = () => {
                       <span className="font-medium">Status:</span>
                       <span
                         className={`ml-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                          selectedOrder.orderStatus
+                          selectedOrder.status
                         )}`}
                       >
-                        {getStatusIcon(selectedOrder.orderStatus)}
+                        {getStatusIcon(selectedOrder.status)}
                         <span className="ml-1 capitalize">
-                          {selectedOrder.orderStatus}
+                          {selectedOrder.status}
                         </span>
                       </span>
                     </p>
