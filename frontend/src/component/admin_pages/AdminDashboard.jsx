@@ -1,6 +1,7 @@
 // src/pages/admin/Dashboard.jsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   FaBoxOpen,
   FaUsers,
@@ -19,6 +20,7 @@ import AdminNavbar from "../AdminNavbar";
 
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState({
     stats: {
       totalUsers: 0,
@@ -49,15 +51,23 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setIsLoading(true);
-      const adminToken = localStorage.getItem("adminToken");
+      
+      // Import auth utilities
+      const { getAuthHeaders, isAdminTokenValid, handleAuthError } = await import('../../utils/auth');
+      
+      // Check if token is valid
+      if (!isAdminTokenValid()) {
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('role');
+        navigate('/admin/login');
+        console.error('Your session has expired. Please login again.');
+        return;
+      }
 
       const response = await fetch(
         `http://localhost:5000/api/admin/dashboard?timeframe=${selectedTimeframe}`,
         {
-          headers: {
-            Authorization: `Bearer ${adminToken}`,
-            "Content-Type": "application/json",
-          },
+          headers: getAuthHeaders()
         }
       );
 
@@ -65,7 +75,13 @@ const AdminDashboard = () => {
         const data = await response.json();
         setDashboardData(data);
       } else {
-        console.error("Failed to fetch dashboard data: Please try again later.");
+        // Handle auth errors
+        if (response.status === 401 || response.status === 403) {
+          const errorData = await response.json();
+          handleAuthError({ response: { status: response.status, data: errorData } }, navigate);
+        } else {
+          console.error("Failed to fetch dashboard data: Please try again later.");
+        }
       }
     } catch (error) {
       console.error("Dashboard fetch error:", error);

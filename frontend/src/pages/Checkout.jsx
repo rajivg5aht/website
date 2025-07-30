@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaUser, FaMoneyBillWave, FaTruck, FaShieldAlt, FaUndo, FaCheck } from "react-icons/fa";
 import { createOrder } from "../service/orderApi";
-import { getProductById } from "../service/productApi";
 import { AuthContext } from "../context/AuthContext";
 
 function formatPrice(amount) {
