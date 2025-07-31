@@ -138,7 +138,7 @@ export default function AddProduct() {
                   Add New Product
                 </h1>
                 <p className="text-gray-600">
-                  Create a new product for the e-Haat catalog
+                  Create a new product for the Helmets and Gears catalog
                 </p>
               </div>
               <button

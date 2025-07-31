@@ -237,7 +237,7 @@ export default function EditProduct() {
                   Edit Product
                 </h1>
                 <p className="text-gray-600">
-                  Update product information in the e-Haat catalog
+                  Update product information in the Helmets and Gears catalog
                 </p>
               </div>
               <button
