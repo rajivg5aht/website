@@ -48,7 +48,7 @@ export default function OrderHistory(){
           try {
             const product = await getProductById(productId)
             if (product && product.imageUrl) {
-              imageMap[productId] = `http://localhost:5001${product.imageUrl}`
+              imageMap[productId] = `http://localhost:5000${product.imageUrl}`
             }
           } catch (err) {
             console.error(`Failed to fetch product ${productId}:`, err)

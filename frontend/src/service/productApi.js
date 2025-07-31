@@ -1,6 +1,6 @@
 // Product API service
 
-const API_URL = 'http://localhost:5001/api/products';
+const API_URL = 'http://localhost:5000/api/products';
 
 export async function getProducts() {
   const res = await fetch(API_URL);

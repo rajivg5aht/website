@@ -235,7 +235,7 @@ export default function Shop() {
                 price={product.price}
                 originalPrice={product.oldPrice}
                 discount={product.discount}
-                image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5001${product.imageUrl}`) : ''}
+                image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : ''}
                 onClick={() => navigate(`/productdetails/${product.id}`)}
                 onAddToCart={() => {
                   import("../utils/cart").then(({ addToCart }) => {
