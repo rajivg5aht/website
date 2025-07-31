@@ -13,6 +13,8 @@ import {
   FaPrint,
 } from "react-icons/fa";
 import AdminNavbar from "../../component/AdminNavbar";
+import { isAdminTokenValid, getAuthHeaders, handleAuthError } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 
 const AdminOrders = () => {
@@ -23,10 +25,19 @@ const AdminOrders = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if admin token is valid when component mounts
+    if (!isAdminTokenValid()) {
+      console.error("No valid admin credentials found");
+      // Redirect to login page
+      navigate("/admin/login");
+      return;
+    }
+    
     fetchOrders();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     filterOrders();
@@ -35,24 +46,38 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     try {
       setIsLoading(true);
-      const adminToken = localStorage.getItem("adminToken");
+      
+      // Check if token is valid
+      if (!isAdminTokenValid()) {
+        console.error("No valid admin credentials found");
+        navigate("/admin/login");
+        return;
+      }
 
       const response = await fetch("http://localhost:5000/api/admin/orders", {
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-          "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders()
       });
 
       if (response.ok) {
         const data = await response.json();
         setOrders(data.orders);
+        setFilteredOrders(data.orders);
+      } else if (response.status === 401 || response.status === 403) {
+        // Handle authentication errors
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("role");
+        navigate("/admin/login");
       } else {
         console.error("Failed to fetch orders: Please try again later.");
       }
     } catch (error) {
       console.error("Orders fetch error:", error);
-      console.error("Unable to load orders.");
+      // Create an error object with response property to match handleAuthError expectations
+      if (error.message && (error.message.includes('401') || error.message.includes('403'))) {
+        handleAuthError({ response: { status: 401 } }, navigate);
+      } else {
+        console.error("Unable to load orders.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -86,16 +111,18 @@ const AdminOrders = () => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const adminToken = localStorage.getItem("adminToken");
+      // Check if token is valid
+      if (!isAdminTokenValid()) {
+        console.error("No valid admin credentials found");
+        navigate("/admin/login");
+        return;
+      }
 
       const response = await fetch(
         `http://localhost:5000/api/admin/orders/${orderId}/status`,
         {
           method: "PUT",
-          headers: {
-            Authorization: `Bearer ${adminToken}`,
-            "Content-Type": "application/json",
-          },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ status: newStatus }),
         }
       );
@@ -103,12 +130,22 @@ const AdminOrders = () => {
       if (response.ok) {
         console.log(`Order status updated to ${newStatus}`);
         fetchOrders(); // Refresh orders
+      } else if (response.status === 401 || response.status === 403) {
+        // Handle authentication errors
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("role");
+        navigate("/admin/login");
       } else {
         console.error("Failed to update order status.");
       }
     } catch (error) {
       console.error("Update order error:", error);
-      console.error("Unable to update order.");
+      // Create an error object with response property to match handleAuthError expectations
+      if (error.message && (error.message.includes('401') || error.message.includes('403'))) {
+        handleAuthError({ response: { status: 401 } }, navigate);
+      } else {
+        console.error("Unable to update order.");
+      }
     }
   };
 

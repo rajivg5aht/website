@@ -7,6 +7,7 @@ import { productRouter as productRoutes } from "./route/product/productRoute.js"
 import uploadRoutes from "./route/uploadRoutes.js";
 import orderRoutes from "./route/orderRoute.js";
 import adminOrderRoutes from "./route/adminOrderRoute.js";
+import adminDashboardRoutes from "./routes/adminDashboardRoute.js";
 import contactRoutes from "./route/contactRoute.js";
 import { setupAssociations } from "./models/associations.js";
 
@@ -24,6 +25,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
+app.use("/api/admin", adminDashboardRoutes);
 app.use("/api/contacts", contactRoutes);
 
 const PORT = process.env.PORT || 3000;
