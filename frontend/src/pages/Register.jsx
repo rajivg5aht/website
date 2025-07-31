@@ -20,7 +20,7 @@ export default function Register() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
+        const response = await axios.get("http://localhost:5001/api/users");
         setUsers(response.data.data); // Adjust according to your API structure
       } catch (err) {
         console.error("Failed to fetch users:", err);

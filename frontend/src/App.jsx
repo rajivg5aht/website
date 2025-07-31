@@ -23,13 +23,26 @@ import OrderHistoryPage from "./pages/OrderHistoryPage";
 import Navbar from "./component/Navbar";
 import Checkout from "./pages/Checkout";
 
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function RequireAdmin({ children }) {
   const isAdmin = localStorage.getItem('role') === 'admin' && localStorage.getItem('adminToken');
   if (!isAdmin) {
     return <Navigate to="/admin/login" replace />;
   }
+  return children;
+}
+
+function RequireAuth({ children }) {
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
+  
+  if (!user) {
+    // Redirect to login page with return URL
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  
   return children;
 }
 
@@ -74,9 +87,9 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/productdetails" element={<Productdetails />} />
         <Route path="/productdetails/:id" element={<Productdetails />} />
-        <Route path="/manageaccount" element={<Manageaccount />} />
-        <Route path="/manage-address" element={<ManageAddress />} />
-        <Route path="/order-history" element={<OrderHistoryPage />} />
+        <Route path="/manageaccount" element={<RequireAuth><Manageaccount /></RequireAuth>} />
+        <Route path="/manage-address" element={<RequireAuth><ManageAddress /></RequireAuth>} />
+        <Route path="/order-history" element={<RequireAuth><OrderHistoryPage /></RequireAuth>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

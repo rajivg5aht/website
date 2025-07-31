@@ -65,7 +65,7 @@ const Product = () => {
           {/* Product Image */} 
           <div className="h-[400px] sm:h-[450px] md:h-[500px] lg:h-[520px] bg-gray-100 rounded-lg overflow-hidden">
             <img
-              src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : ''}
+              src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5001${product.imageUrl}`) : ''}
               alt={product.title}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             />

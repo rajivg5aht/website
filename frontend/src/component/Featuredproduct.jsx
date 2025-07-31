@@ -62,7 +62,7 @@ export default function FeaturedProducts() {
             <ProductCard
               key={product.id}
               {...product}
-              image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : ''}
+              image={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5001${product.imageUrl}`) : ''}
               onAddToCart={() => handleAddToCart(product.id)}
               onClick={() => handleProductClick(product.id)}
             />

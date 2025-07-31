@@ -103,7 +103,7 @@ export default function Cart() {
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="h-16 w-16 flex items-center justify-center mr-4">
-                          <img src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5000${product.imageUrl}`) : "/src/assets/icon.png"} alt={product.name} className="h-16 w-16 rounded-lg" />
+                          <img src={product.imageUrl ? (product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5001${product.imageUrl}`) : "/src/assets/icon.png"} alt={product.name} className="h-16 w-16 rounded-lg" />
                         </div>
                         <span className="text-sm font-medium text-gray-900">{product.name}</span>
                       </div>

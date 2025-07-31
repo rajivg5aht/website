@@ -1,11 +1,14 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,15 +21,26 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
+      const response = await axios.post("http://localhost:5001/api/auth/login", {
         email,
         password,
       });
 
       if (response.status === 200) {
         const token = response.data.data.access_token;
-        login({ email, token });
-        navigate("/");
+        
+        // Decode the JWT token to get user information
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.user.id;
+        
+        // Store user data including ID
+        login({ 
+          email, 
+          token,
+          id: userId
+        });
+        
+        navigate(from);
       }
     } catch (err) {
       if (err.response?.data?.message) {

@@ -1,12 +1,14 @@
 "use client"
  
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useNavigate, useLocation, Link } from "react-router-dom"
 import { User, History, MapPin, LogOut } from "lucide-react"
+import { AuthContext } from "../context/AuthContext"
  
 export default function ProfileLayout  ({ children })  {
   const navigate = useNavigate()
   const location = useLocation()
+  const { logout } = useContext(AuthContext)
   const [showLogoutPopup, setShowLogoutPopup] = useState(false)
  
   const handleLogoutClick = () => {
