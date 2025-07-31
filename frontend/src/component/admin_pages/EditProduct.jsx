@@ -58,7 +58,7 @@ export default function EditProduct() {
       const adminToken = localStorage.getItem("adminToken");
 
       const response = await fetch(
-        `http://localhost:5000/api/admin/products/${productId}`,
+        `http://localhost:5000/api/products/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${adminToken}`,
@@ -68,8 +68,7 @@ export default function EditProduct() {
       );
 
       if (response.ok) {
-        const data = await response.json();
-        const product = data.product;
+        const product = await response.json();
 
         setFormData({
           name: product.name || "",
@@ -183,7 +182,7 @@ export default function EditProduct() {
       submitData.append("existingImages", JSON.stringify(existingImages));
 
       const response = await fetch(
-        `http://localhost:5000/api/admin/products/${productId}`,
+        `http://localhost:5000/api/products/${productId}`,
         {
           method: "PUT",
           headers: {

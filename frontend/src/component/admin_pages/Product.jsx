@@ -80,15 +80,28 @@ const Product = () => {
     try {
       const adminToken = localStorage.getItem("adminToken");
 
+      // First get the current product data
+      const getResponse = await fetch(`http://localhost:5000/api/products/${productId}`);
+      if (!getResponse.ok) {
+        console.error("Failed to fetch product");
+        return;
+      }
+      
+      const product = await getResponse.json();
+      
+      // Update the product with the new status
       const response = await fetch(
-        `http://localhost:5000/api/admin/products/${productId}/status`,
+        `http://localhost:5000/api/products/${productId}`,
         {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${adminToken}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ isActive: newStatus }),
+          body: JSON.stringify({ 
+            ...product,
+            isActive: newStatus 
+          }),
         }
       );
 
@@ -113,7 +126,7 @@ const Product = () => {
       const adminToken = localStorage.getItem("adminToken");
 
       const response = await fetch(
-        `http://localhost:5000/api/admin/products/${deleteConfirm.id}`,
+        `http://localhost:5000/api/products/${deleteConfirm.id}`,
         {
           method: "DELETE",
           headers: {
