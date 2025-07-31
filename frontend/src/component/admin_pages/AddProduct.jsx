@@ -35,7 +35,7 @@ export default function AddProduct() {
 
   const categories = [
     "Helmets",
-    "Riiding Gear",
+    "Riding Suits",
     "Gloves",
     "Accessories",
   ];

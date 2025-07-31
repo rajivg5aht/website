@@ -36,16 +36,11 @@ export default function EditProduct() {
   });
 
   const categories = [
-    "Electronics",
-    "Computers",
-    "Clothing",
-    "Footwear",
-    "Home & Garden",
-    "Beauty & Health",
-    "Sports & Outdoors",
-    "Books & Media",
-    "Toys & Games",
-    "Automotive",
+    "Helmets",
+    "Riding Suits",
+    "Gloves",
+    "Accessories",
+  
   ];
 
   useEffect(() => {
