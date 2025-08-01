@@ -63,23 +63,23 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Customer Service</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/shipping" className="text-gray-300 hover:text-white transition-colors">
-                  Shipping Info
+                <a  className="text-gray-300 hover:text-white transition-colors">
+                  Helmets & Gears
                 </a>
               </li>
               <li>
-                <a href="/returns" className="text-gray-300 hover:text-white transition-colors">
-                  Returns
+                <a  className="text-gray-300 hover:text-white transition-colors">
+                  helmetsandgears@gmail.com
                 </a>
               </li>
               <li>
-                <a href="/warranty" className="text-gray-300 hover:text-white transition-colors">
-                  Warranty
+                <a  className="text-gray-300 hover:text-white transition-colors">
+                  +977 9840000000
                 </a>
               </li>
               <li>
-                <a href="/support" className="text-gray-300 hover:text-white transition-colors">
-                  Support
+                <a className="text-gray-300 hover:text-white transition-colors">
+                  Bhaktapur, Nepal
                 </a>
               </li>
             </ul>

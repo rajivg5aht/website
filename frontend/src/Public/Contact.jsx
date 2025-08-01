@@ -103,7 +103,7 @@ export default function ContactPage() {
                     </div>
                     <div className="ml-14 space-y-4">
                       <p className="text-sm text-gray-600 leading-relaxed transition-colors duration-300">We are available 24/7, 7 days a week.</p>
-                      <p className="text-sm text-gray-600 transition-colors duration-300 cursor-pointer">Phone: +8801611112222</p>
+                      <p className="text-sm text-gray-600 transition-colors duration-300 cursor-pointer">Phone: +977 9840000000</p>
                       <hr className="border-gray-200 transition-colors duration-300" />
                     </div>
                   </div>
@@ -119,8 +119,7 @@ export default function ContactPage() {
                     </div>
                     <div className="ml-14 space-y-4">
                       <p className="text-sm text-gray-600 leading-relaxed transition-colors duration-300">Fill out our form and we will contact you within 24 hours.</p>
-                      <p className="text-sm text-gray-600 transition-colors duration-300 cursor-pointer">Emails: customer@exclusive.com</p>
-                      <p className="text-sm text-gray-600 transition-colors duration-300 cursor-pointer">Emails: support@exclusive.com</p>
+                      <p className="text-sm text-gray-600 transition-colors duration-300 cursor-pointer">Emails: helmetsandgears@gmail.com</p>
                     </div>
                   </div>
                 </div>
