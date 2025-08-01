@@ -40,6 +40,11 @@ export const getProductById = async (req, res) => {
 // Update a product
 export const updateProduct = async (req, res) => {
   try {
+    console.log('Update product request received');
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+    console.log('Request params:', req.params);
+    
     const { id } = req.params;
     const { name, description, price, category, stock } = req.body;
     let imageUrl = req.body.imageUrl;
@@ -51,6 +56,7 @@ export const updateProduct = async (req, res) => {
     await product.update({ name, description, price, imageUrl, category, stock });
     res.json(product);
   } catch (error) {
+    console.error('Update product error:', error);
     res.status(500).json({ error: error.message });
   }
 };

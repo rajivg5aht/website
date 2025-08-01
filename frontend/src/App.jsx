@@ -1,36 +1,43 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Contact from "./pages/Contact";
-import About from "./pages/About";
-import Cart from "./pages/Cart";
-import Shop from "./pages/Shop";
-import Productdetails from "./pages/Productdetails";
-import AdminDashboard from "./component/admin_pages/AdminDashboard";
-import Order from "./component/admin_pages/Order";
-import User from "./component/admin_pages/User";
-import Product from "./component/admin_pages/Product";
-import AddProduct from "./component/admin_pages/AddProduct";
-import EditProduct from "./component/admin_pages/EditProduct";
-import Setting from "./component/admin_pages/Setting";
-import AdminLogin from "./component/admin_pages/AdminLogin";
+import Login from "./Public/Login";
+import Register from "./Public/Register";
+import Contact from "./Public/Contact";
+import About from "./Public/About";
+import Cart from "./Public/Cart";
+import Shop from "./Public/Shop";
+import Productdetails from "./Public/Productdetails";
+import AdminDashboard from "./Private/AdminDashboard";
+import Order from "./Private/Order";
+import User from "./Private/User";
+import Product from "./Private/Product";
+import AddProduct from "./Private/AddProduct";
+import EditProduct from "./Private/EditProduct";
 
-import Landing from "./pages/landing";
-import Manageaccount from "./pages/Manageaccount";
-import ManageAddress from "./pages/ManageAddress";
-import OrderHistoryPage from "./pages/OrderHistoryPage";
+import Landing from "./Public/Landing";
+import Profile from "./Public/Profile";
+import OrderHistory from "./Public/OrderHistory";
+import Manageaccount from "./Private/Manageaccount";
+import ManageAddress from "./Private/ManageAddress";
+import OrderHistoryPage from "./Private/OrderHistoryPage";
 import Navbar from "./component/Navbar";
-import Checkout from "./pages/Checkout";
+import Checkout from "./Public/Checkout";
 
 import { useEffect, useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 
 function RequireAdmin({ children }) {
-  const isAdmin = localStorage.getItem('role') === 'admin' && localStorage.getItem('adminToken');
-  if (!isAdmin) {
-    return <Navigate to="/admin/login" replace />;
+  const { user, isLoading } = useContext(AuthContext);
+  
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
+  
+  // Check if user is logged in and has admin role
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/login" replace />;
+  }
+  
   return children;
 }
 
@@ -59,7 +66,6 @@ function App() {
     <>
       {!isAdminRoute && <Navbar />}
       <Routes>
-        <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/admin/*"
           element={
@@ -71,7 +77,6 @@ function App() {
                 <Route path="products" element={<Product />} />
                 <Route path="products/add" element={<AddProduct />} />
                 <Route path="products/edit/:productId" element={<EditProduct />} />
-                <Route path="settings" element={<Setting />} />
                 <Route path="*" element={<Navigate to="/admin/dashboard" />} />
               </Routes>
             </RequireAdmin>
@@ -87,9 +92,10 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/productdetails" element={<Productdetails />} />
         <Route path="/productdetails/:id" element={<Productdetails />} />
+        <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
+        <Route path="/order-history" element={<RequireAuth><OrderHistory /></RequireAuth>} />
         <Route path="/manageaccount" element={<RequireAuth><Manageaccount /></RequireAuth>} />
         <Route path="/manage-address" element={<RequireAuth><ManageAddress /></RequireAuth>} />
-        <Route path="/order-history" element={<RequireAuth><OrderHistoryPage /></RequireAuth>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>

@@ -32,4 +32,9 @@ export const Product = sequelize.define("Product", {
     allowNull: false,
     defaultValue: 0,
   },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 });

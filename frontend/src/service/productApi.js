@@ -15,7 +15,14 @@ export async function getProductById(id) {
 }
 
 export async function createProduct(product) {
-  let body, headers;
+  let body, headers = {};
+  
+  // Get admin token for authentication
+  const adminToken = localStorage.getItem('adminToken');
+  if (adminToken) {
+    headers['Authorization'] = `Bearer ${adminToken}`;
+  }
+  
   if (product.image) {
     body = new FormData();
     body.append('name', product.name);
@@ -24,11 +31,12 @@ export async function createProduct(product) {
     body.append('category', product.category || '');
     body.append('stock', product.stock || 0);
     body.append('image', product.image);
-    headers = undefined; // Let browser set multipart/form-data
+    // Don't set Content-Type for FormData, let browser handle it
   } else {
     body = JSON.stringify(product);
-    headers = { 'Content-Type': 'application/json' };
+    headers['Content-Type'] = 'application/json';
   }
+  
   const res = await fetch(API_URL, {
     method: 'POST',
     headers,
@@ -39,7 +47,14 @@ export async function createProduct(product) {
 }
 
 export async function updateProduct(id, product) {
-  let body, headers;
+  let body, headers = {};
+  
+  // Get admin token for authentication
+  const adminToken = localStorage.getItem('adminToken');
+  if (adminToken) {
+    headers['Authorization'] = `Bearer ${adminToken}`;
+  }
+  
   if (product.image) {
     body = new FormData();
     body.append('name', product.name);
@@ -48,11 +63,12 @@ export async function updateProduct(id, product) {
     body.append('category', product.category || '');
     body.append('stock', product.stock || 0);
     body.append('image', product.image);
-    headers = undefined;
+    // Don't set Content-Type for FormData
   } else {
     body = JSON.stringify(product);
-    headers = { 'Content-Type': 'application/json' };
+    headers['Content-Type'] = 'application/json';
   }
+  
   const res = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
     headers,
@@ -63,8 +79,15 @@ export async function updateProduct(id, product) {
 }
 
 export async function deleteProduct(id) {
+  const adminToken = localStorage.getItem('adminToken');
+  const headers = {};
+  if (adminToken) {
+    headers['Authorization'] = `Bearer ${adminToken}`;
+  }
+  
   const res = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
+    headers,
   });
   if (!res.ok) throw new Error('Failed to delete product');
   return res.json();

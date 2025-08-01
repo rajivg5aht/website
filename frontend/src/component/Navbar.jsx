@@ -24,9 +24,9 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white shadow-lg border-b-2 border-red-600">
       {/* Header */}
-      <header className="w-full border-b border-gray-200">
+      <header className="w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -38,32 +38,32 @@ export default function Navbar() {
             <nav className="hidden md:flex items-center space-x-8">
               <Link
                 to="/"
-                className="text-gray-900 hover:text-gray-600 font-medium"
+                className="text-black hover:text-red-600 font-medium transition-colors duration-200"
               >
                 Home
               </Link>
               <Link
                 to="/shop"
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200"
               >
                 Shop
               </Link>
               <Link
                 to="/contact"
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200"
               >
                 Contact
               </Link>
               <Link
                 to="/about"
-                className="text-gray-600 hover:text-gray-900 font-medium"
+                className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200"
               >
                 About
               </Link>
               {!user && (
                 <Link
                   to="/register"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200"
                 >
                   Signup
                 </Link>

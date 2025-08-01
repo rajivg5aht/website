@@ -1,28 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaUserShield,
   FaUsers,
   FaBox,
-  FaCog,
   FaSignOutAlt,
   FaBars,
   FaTimes,
   FaHome,
   FaTachometerAlt,
   FaClipboardList,
-  FaBell,
-
 } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
 import ehaat from "../assets/logo.png"; // Adjust the path as necessary
 export const ADMIN_NAVBAR_HEIGHT = 80;
 
 function AdminNavbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
   // Removed useNotification usage due to missing NotificationContext
   // const { showNotification } = useNotification();
 
@@ -31,20 +31,24 @@ function AdminNavbar() {
     { label: "Orders", href: "/admin/orders", icon: <FaClipboardList /> },
     { label: "Users", href: "/admin/users", icon: <FaUsers /> },
     { label: "Products", href: "/admin/products", icon: <FaBox /> },
-    { label: "Settings", href: "/admin/settings", icon: <FaCog /> },
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("isAdmin");
+    logout(); // Use AuthContext logout which clears all tokens and user data
     setDropdownOpen(false);
+    setShowLogoutConfirm(false);
     // Removed showNotification call due to missing NotificationContext
     // showNotification(
     //   "info",
     //   "Admin Logout",
     //   "You have been successfully logged out from admin panel."
     // );
-    navigate("/admin/login");
+    navigate("/"); // Navigate to Landing page instead of admin login
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutConfirm(false);
+    setDropdownOpen(false);
   };
 
   const handleGoToUserSite = () => {
@@ -117,17 +121,7 @@ function AdminNavbar() {
 
         {/* Admin Actions */}
         <div className="flex items-center space-x-4">
-          {/* Notifications */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="relative p-2 text-black hover:text-gray-700 transition-colors"
-          >
-            <FaBell className="text-lg" />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              3
-            </span>
-          </motion.button>
+          {/* Notifications button removed as requested */}
 
           {/* Admin Profile Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -169,39 +163,16 @@ function AdminNavbar() {
                           Administrator
                         </p>
                         <p className="text-xs text-gray-500">
-                          admin@helmets.com
+                          rajiv@gmail.com
                         </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="py-2">
-                    <NavLink
-                      to="/admin/dashboard"
-                      className="flex items-center space-x-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors text-gray-700"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <FaTachometerAlt className="text-gray-500" />
-                      <span>Dashboard</span>
-                    </NavLink>
-                    <NavLink
-                      to="/admin/settings"
-                      className="flex items-center space-x-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors text-gray-700"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      <FaCog className="text-gray-500" />
-                      <span>Settings</span>
-                    </NavLink>
-                    <button
-                      onClick={handleGoToUserSite}
-                      className="flex items-center space-x-3 w-full px-4 py-3 text-sm hover:bg-gray-50 transition-colors text-gray-700"
-                    >
-                      <FaHome className="text-gray-500" />
-                      <span>Go to User Site</span>
-                    </button>
                     <div className="border-t border-gray-100 my-1"></div>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => setShowLogoutConfirm(true)}
                       className="flex items-center space-x-3 w-full px-4 py-3 text-sm hover:bg-gray-50 text-red-500 transition-colors"
                     >
                       <FaSignOutAlt />
@@ -267,7 +238,7 @@ function AdminNavbar() {
                   <span className="text-sm font-medium">Go to User Site</span>
                 </button>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => setShowLogoutConfirm(true)}
                   className="flex items-center space-x-3 w-full px-4 py-3 text-red-600 hover:text-red-500 hover:bg-gray-200 rounded-lg transition-all duration-200"
                 >
                   <FaSignOutAlt />
@@ -278,6 +249,30 @@ function AdminNavbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 shadow-xl max-w-sm mx-4">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Confirm Logout</h3>
+            <p className="text-gray-600 mb-6">Are you sure you want to logout from admin panel?</p>
+            <div className="flex space-x-3 justify-end">
+              <button
+                onClick={handleCancelLogout}
+                className="px-4 py-2 text-gray-700 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+              >
+                No
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700 transition-colors"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

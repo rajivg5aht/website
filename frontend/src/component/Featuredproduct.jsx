@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductCard from "./ProductCard";
-import { getProducts } from "../service/productApi";
+import ProductCard from "./Productcard";
+import { getProducts } from "../service/productApi.js";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
@@ -28,7 +28,7 @@ export default function FeaturedProducts() {
   const productsToShow = showAll ? products : products.slice(0, 4);
 
   const handleAddToCart = (id) => {
-    import("../utils/cart").then(({ addToCart }) => {
+    import("../utils/cart.js").then(({ addToCart }) => {
       addToCart(id, 1);
       alert("Product added to cart");
     });

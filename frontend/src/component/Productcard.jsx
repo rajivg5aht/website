@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addToCart } from "../utils/cart";
+import { addToCart } from "../utils/cart.js";
 
 export default function ProductCard({ id, name, price, originalPrice, image, discount, showAddToCart = true, hideDollarSign = false, onClick, onAddToCart }) {
   const [hovered, setHovered] = useState(false);

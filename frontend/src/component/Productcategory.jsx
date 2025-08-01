@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ProductCard from "./ProductCard";
+import ProductCard from "./Productcard";
 
 import categoryImage from "../assets/category.png";
 import suitsImage from "../assets/Suits.webp";
